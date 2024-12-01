@@ -9,12 +9,21 @@ package main
 import (
 	"context"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
+	"github.com/angelokurtis/go-home-automations/pkg/homeassistant"
 )
 
 // Injectors from wire_inj.go:
 
 func newAppRunner(ctx context.Context) (AppRunner, func(), error) {
-	runner := app.NewRunner()
+	config, err := homeassistant.NewConfigFromEnv()
+	if err != nil {
+		return nil, nil, err
+	}
+	gomeassistantApp, err := homeassistant.NewApp(config)
+	if err != nil {
+		return nil, nil, err
+	}
+	runner := app.NewRunner(gomeassistantApp)
 	return runner, func() {
 	}, nil
 }

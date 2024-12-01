@@ -4,10 +4,12 @@ import (
 	"context"
 )
 
-type Runner struct{}
+type Runner struct {
+	ha HomeAssistant
+}
 
-func NewRunner() *Runner {
-	return &Runner{}
+func NewRunner(ha HomeAssistant) *Runner {
+	return &Runner{ha: ha}
 }
 
 func (r *Runner) Run(ctx context.Context) error {
