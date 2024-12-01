@@ -25,7 +25,8 @@ func newAppRunner(ctx context.Context) (AppRunner, func(), error) {
 	}
 	service := homeassistant.NewServices(gomeassistantApp)
 	light := homeassistant.NewLight(service)
-	switchController := app.NewSwitchController(light)
+	state := homeassistant.NewState(gomeassistantApp)
+	switchController := app.NewSwitchController(light, state)
 	runner := app.NewRunner(gomeassistantApp, switchController)
 	return runner, func() {
 		cleanup()
