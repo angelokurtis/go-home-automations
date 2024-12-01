@@ -3,6 +3,7 @@ package app
 import ga "saml.dev/gome-assistant"
 
 //go:generate go run -mod=mod github.com/vburenin/ifacemaker@latest -f "$GOMODCACHE/saml.dev/gome-assistant@v0.2.3/app.go" -s "App" -i "HomeAssistant" -p "app" -y "HomeAssistant defines methods for integrating with a Home Assistant instance" -o "home_assistant_gen.go"
+//go:generate go run -mod=mod github.com/vburenin/ifacemaker@latest -f "$GOMODCACHE/saml.dev/gome-assistant@v0.2.3/internal/services/light.go" -s "Light" -i "Light" -p "app" -y "Light defines the interface for controlling a light entity" -o "light_gen.go"
 
 // DailySchedule represents a task scheduled to run at a specific time each day.
 type DailySchedule = ga.DailySchedule
