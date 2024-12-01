@@ -5,5 +5,6 @@ import (
 )
 
 var Providers = wire.NewSet(
+	NewApp,
 	NewConfigFromEnv,
 )
