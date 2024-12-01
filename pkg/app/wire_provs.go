@@ -6,4 +6,5 @@ import (
 
 var Providers = wire.NewSet(
 	NewRunner,
+	NewSwitchController,
 )

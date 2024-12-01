@@ -1,22 +1,26 @@
 package app
 
-import "time"
+import (
+	"encoding/json"
+	"time"
 
-import "encoding/json"
+	"github.com/angelokurtis/go-home-automations/internal/errors"
+)
 
-type Events []Event
+func UnmarshalStateChangeEvent(data []byte) (*StateChangeEvent, error) {
+	var r StateChangeEvent
+	if err := json.Unmarshal(data, &r); err != nil {
+		return nil, errors.WithStack(err)
+	}
 
-func UnmarshalEvents(data []byte) (Events, error) {
-	var r Events
-	err := json.Unmarshal(data, &r)
-	return r, err
+	return &r, nil
 }
 
-func (r *Events) Marshal() ([]byte, error) {
+func (r *StateChangeEvent) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-type Event struct {
+type StateChangeEvent struct {
 	Event EventClass `json:"event"`
 	ID    int64      `json:"id"`
 	Type  string     `json:"type"`

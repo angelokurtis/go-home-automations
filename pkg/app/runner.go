@@ -4,27 +4,30 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/lmittmann/tint"
 	ga "saml.dev/gome-assistant"
-
-	"github.com/angelokurtis/go-home-automations/internal/term"
 )
 
 type Runner struct {
-	renderer term.Renderer
-	ha       HomeAssistant
+	ha               HomeAssistant
+	switchController *SwitchController
 }
 
-func NewRunner(renderer term.Renderer, ha HomeAssistant) *Runner {
-	return &Runner{renderer: renderer, ha: ha}
+func NewRunner(ha HomeAssistant, switchController *SwitchController) *Runner {
+	return &Runner{ha: ha, switchController: switchController}
 }
 
 func (r *Runner) Run(ctx context.Context) error {
 	eventListener := ga.NewEventListener().
 		EventTypes("state_changed").
 		Call(func(service *ga.Service, state ga.State, data ga.EventData) {
-			err := r.renderer.RenderJSON(data.RawEventJSON)
+			event, err := UnmarshalStateChangeEvent(data.RawEventJSON)
 			if err != nil {
-				slog.ErrorContext(ctx, "failed to render json", err)
+				return
+			}
+
+			if err := r.switchController.OnStateChanged(event); err != nil {
+				slog.Error("error during switch controller execution", tint.Err(err))
 			}
 		}).
 		Build()

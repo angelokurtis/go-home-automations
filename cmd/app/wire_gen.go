@@ -8,7 +8,6 @@ package main
 
 import (
 	"context"
-	"github.com/angelokurtis/go-home-automations/internal/term"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 	"github.com/angelokurtis/go-home-automations/pkg/homeassistant"
 )
@@ -16,11 +15,6 @@ import (
 // Injectors from wire_inj.go:
 
 func newAppRunner(ctx context.Context) (AppRunner, func(), error) {
-	termRenderer, err := term.NewGlamourTermRenderer()
-	if err != nil {
-		return nil, nil, err
-	}
-	colorRenderer := term.NewColorRenderer(termRenderer)
 	config, err := homeassistant.NewConfigFromEnv()
 	if err != nil {
 		return nil, nil, err
@@ -29,7 +23,10 @@ func newAppRunner(ctx context.Context) (AppRunner, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	runner := app.NewRunner(colorRenderer, gomeassistantApp)
+	service := homeassistant.NewServices(gomeassistantApp)
+	light := homeassistant.NewLight(service)
+	switchController := app.NewSwitchController(light)
+	runner := app.NewRunner(gomeassistantApp, switchController)
 	return runner, func() {
 		cleanup()
 	}, nil
