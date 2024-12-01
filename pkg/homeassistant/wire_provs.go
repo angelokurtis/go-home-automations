@@ -9,4 +9,5 @@ var Providers = wire.NewSet(
 	NewConfigFromEnv,
 	NewServices,
 	NewLight,
+	NewState,
 )

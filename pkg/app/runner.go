@@ -23,10 +23,11 @@ func (r *Runner) Run(ctx context.Context) error {
 		Call(func(service *ga.Service, state ga.State, data ga.EventData) {
 			event, err := UnmarshalStateChangeEvent(data.RawEventJSON)
 			if err != nil {
+				slog.Warn("failed to unmarshal state change event")
 				return
 			}
 
-			if err := r.switchController.OnStateChanged(event); err != nil {
+			if err = r.switchController.OnStateChanged(event); err != nil {
 				slog.Error("error during switch controller execution", tint.Err(err))
 			}
 		}).
