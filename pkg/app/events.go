@@ -53,5 +53,5 @@ type EntityState struct {
 	LastChanged  time.Time         `json:"last_changed"`
 	LastReported time.Time         `json:"last_reported"`
 	LastUpdated  time.Time         `json:"last_updated"`
-	EntityState  string            `json:"state"`
+	State        string            `json:"state"`
 }

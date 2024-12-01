@@ -9,11 +9,11 @@ import (
 
 type SwitchController struct {
 	light Light
-	State State
+	state State
 }
 
 func NewSwitchController(light Light, state State) *SwitchController {
-	return &SwitchController{light: light, State: state}
+	return &SwitchController{light: light, state: state}
 }
 
 func (sc *SwitchController) OnStateChanged(event *StateChangeEvent) error {
@@ -27,9 +27,12 @@ func (sc *SwitchController) OnStateChanged(event *StateChangeEvent) error {
 	v1 := data.OldState
 	v2 := data.NewState
 
-	if diff := cmp.Diff(v1, v2); diff != "" {
-		slog.Info(diff, "entity", entityID)
+	diff := cmp.Diff(v1.State, v2.State)
+	if diff == "" {
+		return nil
 	}
+
+	slog.Info(diff, "entity", entityID)
 
 	return nil
 }
