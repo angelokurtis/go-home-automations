@@ -6,7 +6,7 @@ import (
 	"github.com/angelokurtis/go-home-automations/internal/errors"
 )
 
-func NewApp(config *Config) (*ga.App, error) {
+func NewApp(config *Config) (*ga.App, func(), error) {
 	app, err := ga.NewApp(ga.NewAppRequest{
 		IpAddress:        config.IpAddress,
 		Port:             config.Port,
@@ -15,8 +15,8 @@ func NewApp(config *Config) (*ga.App, error) {
 		Secure:           config.Secure,
 	})
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, func() {}, errors.WithStack(err)
 	}
 
-	return app, nil
+	return app, app.Cleanup, nil
 }

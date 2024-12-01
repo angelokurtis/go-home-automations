@@ -19,12 +19,13 @@ func newAppRunner(ctx context.Context) (AppRunner, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	gomeassistantApp, err := homeassistant.NewApp(config)
+	gomeassistantApp, cleanup, err := homeassistant.NewApp(config)
 	if err != nil {
 		return nil, nil, err
 	}
 	runner := app.NewRunner(gomeassistantApp)
 	return runner, func() {
+		cleanup()
 	}, nil
 }
 
