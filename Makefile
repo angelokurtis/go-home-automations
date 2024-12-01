@@ -13,7 +13,8 @@ build: ## Compiles the source code.
 
 .PHONY: generate
 generate: wire ## Compile-time Dependency Injection using code generation.
-	$(WIRE) gen -tags "goverter wireinject" ./cmd/app/
+	$(WIRE) gen -tags "wireinject" ./cmd/app/
+	go generate ./pkg/app/
 
 .PHONY: lint
 lint: golangci-lint ## Analyze and report style, formatting, and syntax issues in the source code.
