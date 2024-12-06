@@ -2,7 +2,6 @@ package app
 
 import (
 	"log/slog"
-	"strings"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -17,17 +16,9 @@ func NewSwitchController(light Light, state State) *SwitchController {
 }
 
 func (sc *SwitchController) OnStateChanged(event *StateChangeEvent) error {
-	data := event.Event.Data
+	entityID := event.EntityID
 
-	entityID := data.EntityID
-	if !strings.HasPrefix(entityID, "switch.") {
-		return nil
-	}
-
-	v1 := data.OldState
-	v2 := data.NewState
-
-	diff := cmp.Diff(v1.State, v2.State)
+	diff := cmp.Diff(event.OldState, event.NewState)
 	if diff == "" {
 		return nil
 	}

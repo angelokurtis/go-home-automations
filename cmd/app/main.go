@@ -20,6 +20,7 @@ func main() {
 
 	// Set up logging
 	logger := slog.New(tint.NewHandler(os.Stderr, &tint.Options{
+		AddSource:  true,
 		Level:      slog.LevelInfo,
 		TimeFormat: time.Kitchen,
 	}))
