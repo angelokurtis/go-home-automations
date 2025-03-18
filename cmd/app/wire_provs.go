@@ -2,18 +2,15 @@ package main
 
 import (
 	"github.com/google/wire"
-	ga "saml.dev/gome-assistant"
 
 	"github.com/angelokurtis/go-home-automations/internal/term"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
-	"github.com/angelokurtis/go-home-automations/pkg/homeassistant"
 )
 
-var Providers = wire.NewSet(
-	wire.Bind(new(app.HomeAssistant), new(*ga.App)),
-	wire.Bind(new(AppRunner), new(*app.Runner)),
-	wire.Bind(new(term.Renderer), new(*term.ColorRenderer)),
-	app.Providers,
-	homeassistant.Providers,
+//nolint:unused // This function is used during compile-time to generate code for dependency injection
+var providers = wire.NewSet(
 	term.Providers,
+	wire.Bind(new(Runner), new(*app.Runner)),
+	wire.Bind(new(term.Renderer), new(*term.MarkdownRenderer)),
+	wire.Struct(new(app.Runner), "*"),
 )

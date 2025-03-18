@@ -6,5 +6,5 @@ import (
 
 var Providers = wire.NewSet(
 	NewGlamourTermRenderer,
-	NewColorRenderer,
+	NewMarkdownRenderer,
 )

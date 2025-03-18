@@ -3,6 +3,7 @@ package errors
 import (
 	"errors"
 	"fmt"
+	"io"
 )
 
 // New creates a new error with the provided message and captures the current call stack.
@@ -59,11 +60,11 @@ type wrapper struct {
 // Error implements the built-in error interface.
 // It returns the string representation of the underlying error wrapped by this instance.
 func (t *wrapper) Error() string {
-	if t.err == nil {
-		return ""
+	if t.err != nil {
+		return t.err.Error()
 	}
 
-	return t.err.Error()
+	return ""
 }
 
 // Unwrap retrieves the cause (original) error wrapped by this instance.
@@ -76,7 +77,22 @@ func (t *wrapper) Stack() *Stack {
 	return t.stack
 }
 
-// String returns a formatted string representation of the error message and its call stack.
-func (t *wrapper) String() string {
-	return t.Error() + t.Stack().Format()
+// Format implements the fmt.Formatter interface for the wrapper struct.
+// It customizes the formatting of the wrapped error and stack trace based on the verb and flags.
+func (t *wrapper) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			_, _ = io.WriteString(s, t.Error())
+			_, _ = fmt.Fprintf(s, "%s", t.Stack())
+
+			return
+		}
+
+		fallthrough
+	case 's':
+		_, _ = io.WriteString(s, t.Error())
+	case 'q':
+		_, _ = fmt.Fprintf(s, "%q", t.Error())
+	}
 }

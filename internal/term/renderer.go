@@ -1,7 +1,6 @@
 package term
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/charmbracelet/glamour"
@@ -9,24 +8,23 @@ import (
 )
 
 type Renderer interface {
-	RenderBytes(input []byte, language string) error
-	RenderString(input, language string) error
-	RenderYAML(input any) error
-	RenderJSON(input []byte) error
+	Render(data []byte, lang string) error
+	RenderText(text, lang string) error
+	RenderYAML(value any) error
 }
 
-type ColorRenderer struct {
-	renderer *glamour.TermRenderer
+type MarkdownRenderer struct {
+	glamourRenderer *glamour.TermRenderer
 }
 
-func NewColorRenderer(renderer *glamour.TermRenderer) *ColorRenderer {
-	return &ColorRenderer{renderer: renderer}
+func NewMarkdownRenderer(renderer *glamour.TermRenderer) *MarkdownRenderer {
+	return &MarkdownRenderer{glamourRenderer: renderer}
 }
 
-func (c *ColorRenderer) RenderBytes(input []byte, language string) error {
-	output, err := c.renderer.Render(fmt.Sprintf("```%s\n%s\n```", language, string(input)))
+func (m *MarkdownRenderer) Render(data []byte, lang string) error {
+	output, err := m.glamourRenderer.Render(fmt.Sprintf("```%s\n%s\n```", lang, string(data)))
 	if err != nil {
-		return fmt.Errorf("unable to render: %w", err)
+		return fmt.Errorf("rendering failed: %w", err)
 	}
 
 	println(output)
@@ -34,10 +32,10 @@ func (c *ColorRenderer) RenderBytes(input []byte, language string) error {
 	return nil
 }
 
-func (c *ColorRenderer) RenderString(input, language string) error {
-	output, err := c.renderer.Render(fmt.Sprintf("```%s\n%s\n```", language, input))
+func (m *MarkdownRenderer) RenderText(text, lang string) error {
+	output, err := m.glamourRenderer.Render(fmt.Sprintf("```%s\n%s\n```", lang, text))
 	if err != nil {
-		return fmt.Errorf("unable to render: %w", err)
+		return fmt.Errorf("rendering failed: %w", err)
 	}
 
 	println(output)
@@ -45,25 +43,11 @@ func (c *ColorRenderer) RenderString(input, language string) error {
 	return nil
 }
 
-func (c *ColorRenderer) RenderYAML(input any) error {
-	bytes, err := yaml.Marshal(input)
+func (m *MarkdownRenderer) RenderYAML(value any) error {
+	data, err := yaml.Marshal(value)
 	if err != nil {
-		return fmt.Errorf("failed to marshal YAML: %w", err)
+		return fmt.Errorf("YAML marshalling failed: %w", err)
 	}
 
-	return c.RenderBytes(bytes, "yaml")
-}
-
-func (c *ColorRenderer) RenderJSON(input []byte) error {
-	var obj interface{}
-	if err := json.Unmarshal(input, &obj); err != nil {
-		return fmt.Errorf("failed to unmarshal JSON: %w", err)
-	}
-
-	bytes, err := json.MarshalIndent(obj, "", "    ")
-	if err != nil {
-		return fmt.Errorf("failed to marshal JSON: %w", err)
-	}
-
-	return c.RenderBytes(bytes, "yaml")
+	return m.Render(data, "yaml")
 }

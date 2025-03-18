@@ -2,68 +2,60 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
-	"github.com/lmittmann/tint"
+	"go.uber.org/automaxprocs/maxprocs"
+	"golang.org/x/sync/errgroup"
 
-	"github.com/angelokurtis/go-home-automations/internal/maxprocs"
+	"github.com/angelokurtis/go-home-automations/internal/errors"
 )
 
 func main() {
-	// Create a context that can be canceled
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel() // Ensure cancel is called to release resources
+	ctx := context.Background() // Create base context
 
-	// Set up logging
-	logger := slog.New(tint.NewHandler(os.Stderr, &tint.Options{
-		AddSource:  true,
-		Level:      slog.LevelInfo,
-		TimeFormat: time.Kitchen,
-	}))
-	slog.SetDefault(logger)
-
-	// Set up GOMAXPROCS to utilize available CPU cores
-	_, undo := maxprocs.SetUp(logger)
-	defer undo()
-
-	// Initialize the application
-	appRunner, cleanup, err := newAppRunner(ctx)
-	if err != nil {
-		slog.ErrorContext(ctx, "Failed to initialize application", tint.Err(err))
+	if err := run(ctx); err != nil {
+		msg := fmt.Sprintf("Application exited with error: %+v", err)
+		slog.ErrorContext(ctx, msg)
 		os.Exit(1)
 	}
 
-	// Channel to listen for OS signals
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
+	slog.InfoContext(ctx, "Application exited")
+}
 
-	// Channel to report errors from the process
-	errChan := make(chan error, 1)
+// run manages app lifecycle, signal handling, and runner.
+func run(ctx context.Context) error {
+	ctx, stop := signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
 
-	// Start the main application logic in a new goroutine
-	go func() { errChan <- appRunner.Run(ctx) }()
+	// Set up GOMAXPROCS to utilize available CPU cores
+	undo, err := maxprocs.Set()
+	defer undo()
 
-	select {
-	case err = <-errChan:
-		// App completed with error
-		if err != nil {
-			slog.ErrorContext(ctx, "Application finished with error", tint.Err(err))
-			cleanup()
-			os.Exit(1)
-		}
-
-		slog.DebugContext(ctx, "Application completed successfully")
-	case sig := <-sigChan:
-		// Received a termination signal
-		slog.WarnContext(ctx, "Received termination signal", slog.String("signal", sig.String()))
-		cancel()
+	if err != nil {
+		return errors.Errorf("failed to set GOMAXPROCS: %w", err)
 	}
 
-	// Run cleanup
-	slog.DebugContext(ctx, "Running cleanup")
-	cleanup()
+	runner, cleanup, err := NewRunner(ctx)
+	if err != nil {
+		return err
+	}
+	defer cleanup()
+
+	g, ctx := errgroup.WithContext(ctx)
+
+	g.Go(func() error {
+		defer stop()
+		return runner.Run(ctx)
+	})
+
+	g.Go(func() error {
+		<-ctx.Done()
+		return nil
+	})
+
+	return g.Wait()
 }

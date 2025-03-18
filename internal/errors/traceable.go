@@ -1,14 +1,17 @@
 package errors
 
-// Traceable is an interface that errors can implement to provide additional
-// information about their cause and stack trace.
+// Traceable defines an interface for errors that can provide detailed
+// stack trace information. Implementing this interface allows errors
+// to carry stack trace data that can be retrieved and analyzed.
+//
+// Example usage:
+//
+//	if t, ok := err.(Traceable); ok {
+//	    fmt.Println(t.Stack())
+//	}
 type Traceable interface {
-	// Unwrap returns the underlying cause of the error that this error wraps.
-	Unwrap() error
-
-	// Stack returns the call stack for this error.
+	// Stack retrieves the call stack associated with this error.
+	// It returns a pointer to a Stack, which contains the series of
+	// function calls that led to the error.
 	Stack() *Stack
-
-	// String returns a string representation of the call stack.
-	String() string
 }

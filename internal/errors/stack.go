@@ -7,11 +7,9 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
-
-	"github.com/lmittmann/tint"
 )
 
-var functionPattern = regexp.MustCompile(`^(github.com/angelokurtis/go-home-automations/|main\.)`)
+var functionPattern = regexp.MustCompile(`^(github.com/angelokurtis/go-home-automations|main\.)`)
 
 // Stack represents a call stack, a slice of function call program counter (PC) values
 type Stack []uintptr
@@ -25,8 +23,8 @@ func callers() *Stack {
 	return &s
 }
 
-// Format method on Stack type formats the call stack into a human-readable string
-func (s *Stack) Format() string {
+// String method on Stack type formats the call stack into a human-readable string
+func (s *Stack) String() string {
 	if s == nil {
 		return ""
 	}
@@ -69,7 +67,7 @@ func (s *stackBuilder) AddCallerFrame(frame runtime.Frame) {
 		frame.File,
 		frame.Line,
 	)); err != nil {
-		slog.WarnContext(context.TODO(), "Error formatting stack trace", tint.Err(err))
+		slog.WarnContext(context.TODO(), "Error formatting stack trace", "error", err)
 	}
 }
 

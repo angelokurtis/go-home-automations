@@ -9,11 +9,11 @@ import (
 	"github.com/google/wire"
 )
 
-type AppRunner interface {
+type Runner interface {
 	Run(ctx context.Context) error
 }
 
-func newAppRunner(ctx context.Context) (AppRunner, func(), error) {
-	wire.Build(Providers)
+func NewRunner(ctx context.Context) (Runner, func(), error) {
+	wire.Build(providers)
 	return nil, nil, nil
 }
