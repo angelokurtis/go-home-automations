@@ -6,4 +6,5 @@ import (
 
 var Providers = wire.NewSet(
 	LoadConfig,
+	NewApp,
 )
