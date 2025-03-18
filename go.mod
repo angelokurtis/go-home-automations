@@ -3,6 +3,7 @@ module github.com/angelokurtis/go-home-automations
 go 1.24.1
 
 require (
+	github.com/caarlos0/env/v11 v11.3.1
 	github.com/charmbracelet/glamour v0.9.1
 	github.com/goccy/go-yaml v1.16.0
 	github.com/google/wire v0.6.0
