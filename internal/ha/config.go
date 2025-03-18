@@ -7,14 +7,16 @@ import (
 )
 
 type Config struct {
-	Home string `env:"HOME"`
+	URL              string `env:"URL" envDefault:"http://192.168.1.123:8123"`
+	AuthToken        string `env:"AUTH_TOKEN"`
+	HomeZoneEntityId string `env:"HOME_ZONE_ENTITY_ID" envDefault:"zone.home"`
 }
 
 func LoadConfig() (*Config, error) {
-	cfg, err := envv11.ParseAs[Config]()
+	config, err := envv11.ParseAs[Config]()
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	return &cfg, nil
+	return &config, nil
 }
