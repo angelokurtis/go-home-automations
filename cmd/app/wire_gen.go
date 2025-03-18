@@ -8,14 +8,24 @@ package main
 
 import (
 	"context"
+	"github.com/angelokurtis/go-home-automations/internal/ha"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 )
 
 // Injectors from wire_inj.go:
 
 func NewRunner(ctx context.Context) (Runner, func(), error) {
-	runner := &app.Runner{}
+	config, err := ha.LoadConfig()
+	if err != nil {
+		return nil, nil, err
+	}
+	gomeassistantApp, cleanup, err := ha.NewApp(ctx, config)
+	if err != nil {
+		return nil, nil, err
+	}
+	runner := app.NewRunner(gomeassistantApp)
 	return runner, func() {
+		cleanup()
 	}, nil
 }
 

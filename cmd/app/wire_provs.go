@@ -10,9 +10,9 @@ import (
 
 //nolint:unused // This function is used during compile-time to generate code for dependency injection
 var providers = wire.NewSet(
+	app.NewRunner,
 	ha.Providers,
 	term.Providers,
 	wire.Bind(new(Runner), new(*app.Runner)),
 	wire.Bind(new(term.Renderer), new(*term.MarkdownRenderer)),
-	wire.Struct(new(app.Runner), "*"),
 )
