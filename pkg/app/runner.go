@@ -2,9 +2,8 @@ package app
 
 import (
 	"context"
-	ga "saml.dev/gome-assistant"
 
-	"github.com/angelokurtis/go-home-automations/internal/errors"
+	ga "saml.dev/gome-assistant"
 )
 
 type Runner struct {
@@ -16,5 +15,13 @@ func NewRunner(app *ga.App) *Runner {
 }
 
 func (r *Runner) Run(ctx context.Context) error {
-	return errors.New("not implemented")
+	entityListener := ga.NewEntityListener().
+		EntityIds("binary_sensor.pantry_door").
+		Call(func(service *ga.Service, state ga.State, data ga.EntityData) {
+		}).
+		Build()
+	r.app.RegisterEntityListeners(entityListener)
+	r.app.Start()
+
+	return nil
 }
