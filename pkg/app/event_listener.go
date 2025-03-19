@@ -7,5 +7,5 @@ import (
 )
 
 type EventListener interface {
-	Call(ctx context.Context, event ga.EventData) error
+	OnEvent(ctx context.Context, event ga.EventData) error
 }

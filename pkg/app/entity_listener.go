@@ -7,5 +7,5 @@ import (
 )
 
 type EntityListener interface {
-	Call(ctx context.Context, entity ga.EntityData) error
+	OnChange(ctx context.Context, entity ga.EntityData) error
 }
