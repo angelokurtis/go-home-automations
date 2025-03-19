@@ -25,11 +25,18 @@ func (r *Runner) Run(ctx context.Context) error {
 
 	entityListener := ga.NewEntityListener().
 		EntityIds(arandelaDaSala, arandelaDaCopa).
-		Call(func(service *ga.Service, state ga.State, data ga.EntityData) {
+		Call(func(service *ga.Service, state ga.State, sensor ga.EntityData) {
 			slog.InfoContext(ctx, "Entity state changed",
-				slog.String("entity_id", data.TriggerEntityId),
-				slog.String("new_state", data.ToState),
+				slog.String("entity_id", sensor.TriggerEntityId),
+				slog.String("new_state", sensor.ToState),
 			)
+			if sensor.ToState == "on" {
+				err := service.HomeAssistant.TurnOn(arandelaDaSala)
+				err := service.HomeAssistant.TurnOn(arandelaDaCopa)
+			} else {
+				err := service.HomeAssistant.TurnOff(arandelaDaSala)
+				err := service.HomeAssistant.TurnOff(arandelaDaCopa)
+			}
 		}).
 		Build()
 
