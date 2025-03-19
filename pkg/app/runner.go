@@ -71,6 +71,9 @@ func (r *Runner) Run(ctx context.Context) error {
 		}).
 		Build()
 
+	ga.NewEventListener().EventTypes().Call(func(service *ga.Service, state ga.State, data ga.EventData) {
+	})
+
 	r.app.RegisterEntityListeners(entityListener)
 	slog.InfoContext(ctx, "Entity listeners registered")
 
