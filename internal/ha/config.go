@@ -13,7 +13,9 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	config, err := envv11.ParseAs[Config]()
+	config, err := envv11.ParseAsWithOptions[Config](envv11.Options{
+		Prefix: "HA_",
+	})
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}

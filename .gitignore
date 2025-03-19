@@ -22,3 +22,5 @@ vendor/
 
 # Covers Visual Studio Code
 .vscode/
+
+.env
