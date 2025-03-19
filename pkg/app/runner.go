@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/lmittmann/tint"
 	ga "saml.dev/gome-assistant"
 )
 
@@ -31,11 +32,41 @@ func (r *Runner) Run(ctx context.Context) error {
 				slog.String("new_state", sensor.ToState),
 			)
 			if sensor.ToState == "on" {
-				err := service.HomeAssistant.TurnOn(arandelaDaSala)
-				err := service.HomeAssistant.TurnOn(arandelaDaCopa)
+				slog.InfoContext(ctx, "Turning on lights",
+					slog.Any("entity_ids", []string{arandelaDaSala, arandelaDaCopa}),
+				)
+				if err := service.HomeAssistant.TurnOn(arandelaDaSala); err != nil {
+					slog.ErrorContext(ctx, "Failed to turn on light",
+						slog.String("entity_id", arandelaDaSala),
+						tint.Err(err),
+					)
+					return
+				}
+				if err := service.HomeAssistant.TurnOn(arandelaDaCopa); err != nil {
+					slog.ErrorContext(ctx, "Failed to turn on light",
+						slog.String("entity_id", arandelaDaCopa),
+						tint.Err(err),
+					)
+					return
+				}
 			} else {
-				err := service.HomeAssistant.TurnOff(arandelaDaSala)
-				err := service.HomeAssistant.TurnOff(arandelaDaCopa)
+				slog.InfoContext(ctx, "Turning off lights",
+					slog.Any("entity_ids", []string{arandelaDaSala, arandelaDaCopa}),
+				)
+				if err := service.HomeAssistant.TurnOff(arandelaDaSala); err != nil {
+					slog.ErrorContext(ctx, "Failed to turn off light",
+						slog.String("entity_id", arandelaDaSala),
+						tint.Err(err),
+					)
+					return
+				}
+				if err := service.HomeAssistant.TurnOff(arandelaDaCopa); err != nil {
+					slog.ErrorContext(ctx, "Failed to turn off light",
+						slog.String("entity_id", arandelaDaCopa),
+						tint.Err(err),
+					)
+					return
+				}
 			}
 		}).
 		Build()
