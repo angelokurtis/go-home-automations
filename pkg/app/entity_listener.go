@@ -8,4 +8,5 @@ import (
 
 type EntityListener interface {
 	OnChange(ctx context.Context, entity ga.EntityData) error
+	EntityIds() []string
 }

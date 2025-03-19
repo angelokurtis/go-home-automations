@@ -8,4 +8,5 @@ import (
 
 type EventListener interface {
 	OnEvent(ctx context.Context, event ga.EventData) error
+	EventTypes() []string
 }
