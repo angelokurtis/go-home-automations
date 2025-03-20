@@ -7,7 +7,10 @@ require (
 	github.com/charmbracelet/glamour v0.9.1
 	github.com/goccy/go-yaml v1.16.0
 	github.com/google/wire v0.6.0
+	github.com/lmittmann/tint v1.0.7
 	github.com/magefile/mage v1.15.0
+	github.com/samber/lo v1.49.1
+	github.com/sourcegraph/conc v0.3.0
 	go.uber.org/automaxprocs v1.6.0
 	golang.org/x/sync v0.12.0
 	saml.dev/gome-assistant v0.4.0
@@ -30,7 +33,6 @@ require (
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
-	github.com/lmittmann/tint v1.0.7 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
@@ -40,12 +42,11 @@ require (
 	github.com/nathan-osman/go-sunrise v1.1.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
-	github.com/samber/lo v1.49.1 // indirect
-	github.com/sourcegraph/conc v0.3.0 // indirect
-	github.com/stretchr/testify v1.10.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
 	github.com/yuin/goldmark-emoji v1.0.5 // indirect
+	go.uber.org/atomic v1.7.0 // indirect
+	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/term v0.30.0 // indirect
