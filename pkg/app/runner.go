@@ -32,12 +32,16 @@ func (r *Runner) Run(ctx context.Context) error {
 		return ga.NewEntityListener().
 			EntityIds(entityListener.EntityIds()...).
 			Call(func(service *ga.Service, state ga.State, entity ga.EntityData) {
+				ctx, end := span.Start(ctx)
+				defer end()
+
 				slog.InfoContext(ctx, "Entity state changed",
 					slog.String("entity_id", entity.TriggerEntityId),
 					slog.String("new_state", entity.ToState),
 				)
 
 				if err := entityListener.OnChange(ctx, entity); err != nil {
+					_ = span.Error(ctx, err)
 					slog.ErrorContext(ctx, "Failed to process entity change", tint.Err(err))
 					return
 				}
