@@ -24,11 +24,18 @@ var providers = wire.NewSet(
 
 func entityListeners(service *ga.Service) []app.EntityListener {
 	return []app.EntityListener{
-		// arandelas
+		// arandelas de dentro
 		entity.NewSynchronizedSwitchesListener(
 			service,
 			"switch.interruptor_6x_da_copa_l1",
 			"switch.interruptor_6x_da_copa_l2",
+			"switch.interruptor_3x_da_entrada_left",
+		),
+		// arandelas da piscina
+		entity.NewSynchronizedSwitchesListener(
+			service,
+			"switch.interruptor_6x_da_area_gourmet_l1",
+			"switch.interruptor_6x_da_area_gourmet_l6",
 		),
 	}
 }

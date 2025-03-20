@@ -34,6 +34,7 @@ func run(ctx context.Context) error {
 	defer stop()
 
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stderr, &tint.Options{
+		AddSource:  true,
 		Level:      slog.LevelDebug,
 		TimeFormat: time.Kitchen,
 	})))
