@@ -5,11 +5,9 @@ package main
 
 import (
 	"context"
-	"github.com/angelokurtis/go-home-automations/internal/ha"
-	"github.com/angelokurtis/go-home-automations/pkg/app"
-)
 
-import (
+	"github.com/google/wire"
+
 	_ "github.com/angelokurtis/go-home-automations/internal/logger"
 )
 

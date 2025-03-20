@@ -7,10 +7,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/angelokurtis/go-otel/starter"
-	"github.com/lmittmann/tint"
 	"go.uber.org/automaxprocs/maxprocs"
 	"golang.org/x/sync/errgroup"
 
@@ -34,13 +32,7 @@ func run(ctx context.Context) error {
 	ctx, stop := signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	slog.SetDefault(slog.New(tint.NewHandler(os.Stderr, &tint.Options{
-		AddSource:  true,
-		Level:      slog.LevelDebug,
-		TimeFormat: time.Kitchen,
-	})))
-
-	_, shutdown, err := starter.StartProviders(context.Background())
+	_, shutdown, err := starter.StartProviders(ctx)
 	if err != nil {
 		return errors.WithStack(err)
 	}
