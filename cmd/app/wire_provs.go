@@ -51,12 +51,19 @@ func entityListeners(service *ga.Service) []app.EntityListener {
 			service,
 			"switch.interruptor_2x_da_area_gourmet_center",
 			"switch.interruptor_6x_da_area_gourmet_l5",
+			"switch.interruptor_6x_da_copa_l5",
 		),
 		// arandelas da piscina
 		entity.NewSynchronizedSwitchesListener(
 			service,
 			"switch.interruptor_6x_da_area_gourmet_l1",
 			"switch.interruptor_6x_da_area_gourmet_l6",
+		),
+		// arandela da lateral
+		entity.NewSynchronizedSwitchesListener(
+			service,
+			"switch.interruptor_2x_da_area_gourmet_left",
+			"switch.interruptor_6x_da_copa_l6",
 		),
 	}
 }
