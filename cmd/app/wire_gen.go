@@ -12,6 +12,10 @@ import (
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 )
 
+import (
+	_ "github.com/angelokurtis/go-home-automations/internal/logger"
+)
+
 // Injectors from wire_inj.go:
 
 func NewRunner(ctx context.Context) (Runner, func(), error) {

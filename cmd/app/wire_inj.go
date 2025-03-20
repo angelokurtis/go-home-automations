@@ -5,8 +5,12 @@ package main
 
 import (
 	"context"
+	"github.com/angelokurtis/go-home-automations/internal/ha"
+	"github.com/angelokurtis/go-home-automations/pkg/app"
+)
 
-	"github.com/google/wire"
+import (
+	_ "github.com/angelokurtis/go-home-automations/internal/logger"
 )
 
 type Runner interface {
