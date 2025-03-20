@@ -23,7 +23,10 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	runner := app.NewRunner(gomeassistantApp)
+	service := ha.NewService(gomeassistantApp)
+	v := entityListeners(service)
+	v2 := eventListeners()
+	runner := app.NewRunner(gomeassistantApp, v, v2)
 	return runner, func() {
 		cleanup()
 	}, nil
