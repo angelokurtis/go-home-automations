@@ -19,10 +19,13 @@ type Runner struct {
 	app             *ga.App
 	entityListeners []EntityListener
 	eventListeners  []EventListener
+	dailyTasks      []DailyTask
+	sunsetTasks     []SunsetTask
+	sunriseTasks    []SunriseTask
 }
 
-func NewRunner(app *ga.App, entityListeners []EntityListener, eventListeners []EventListener) *Runner {
-	return &Runner{app: app, entityListeners: entityListeners, eventListeners: eventListeners}
+func NewRunner(app *ga.App, entityListeners []EntityListener, eventListeners []EventListener, dailyTasks []DailyTask, sunsetTasks []SunsetTask, sunriseTasks []SunriseTask) *Runner {
+	return &Runner{app: app, entityListeners: entityListeners, eventListeners: eventListeners, dailyTasks: dailyTasks, sunsetTasks: sunsetTasks, sunriseTasks: sunriseTasks}
 }
 
 func (r *Runner) Run(ctx context.Context) error {

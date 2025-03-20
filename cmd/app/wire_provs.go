@@ -20,6 +20,9 @@ var providers = wire.NewSet(
 
 	entityListeners,
 	eventListeners,
+	dailyTasks,
+	sunsetTasks,
+	sunriseTasks,
 )
 
 func entityListeners(service *ga.Service) []app.EntityListener {
@@ -60,4 +63,16 @@ func entityListeners(service *ga.Service) []app.EntityListener {
 
 func eventListeners() []app.EventListener {
 	return []app.EventListener{}
+}
+
+func dailyTasks() []app.DailyTask {
+	return []app.DailyTask{}
+}
+
+func sunsetTasks() []app.SunsetTask {
+	return []app.SunsetTask{}
+}
+
+func sunriseTasks() []app.SunriseTask {
+	return []app.SunriseTask{}
 }
