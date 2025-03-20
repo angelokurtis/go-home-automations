@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/angelokurtis/go-otel/span"
 	"github.com/samber/lo"
 	"github.com/sourcegraph/conc/pool"
 	ga "saml.dev/gome-assistant"
@@ -28,14 +29,19 @@ func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.E
 		entityId := entityId // avoid loop variable capture
 
 		p.Go(func() error {
+			ctx, end := span.Start(ctx)
+			defer end()
+
 			if entity.ToState == "on" {
 				if err := l.service.HomeAssistant.TurnOn(entityId); err != nil {
+					_ = span.Error(ctx, err)
 					return errors.WithStack(err)
 				}
 			}
 
 			if entity.ToState == "off" {
 				if err := l.service.HomeAssistant.TurnOff(entityId); err != nil {
+					_ = span.Error(ctx, err)
 					return errors.WithStack(err)
 				}
 			}
