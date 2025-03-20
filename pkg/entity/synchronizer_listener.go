@@ -40,7 +40,7 @@ func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.E
 				}
 			}
 
-			slog.InfoContext(ctx, "Entity state updated successfully",
+			slog.InfoContext(ctx, "Entity state updated",
 				slog.String("entity-id", entityId),
 				slog.String("new-state", entity.ToState),
 			)
