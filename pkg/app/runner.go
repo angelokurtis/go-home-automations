@@ -20,8 +20,8 @@ type Runner struct {
 	eventListeners  []EventListener
 }
 
-func NewRunner(app *ga.App) *Runner {
-	return &Runner{app: app}
+func NewRunner(app *ga.App, entityListeners []EntityListener, eventListeners []EventListener) *Runner {
+	return &Runner{app: app, entityListeners: entityListeners, eventListeners: eventListeners}
 }
 
 func (r *Runner) Run(ctx context.Context) error {
