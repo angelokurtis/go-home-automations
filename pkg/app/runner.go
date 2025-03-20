@@ -10,11 +10,6 @@ import (
 	ga "saml.dev/gome-assistant"
 )
 
-const (
-	arandelaDaSala = "switch.interruptor_6x_da_copa_l1"
-	arandelaDaCopa = "switch.interruptor_6x_da_copa_l2"
-)
-
 type Runner struct {
 	app             *ga.App
 	entityListeners []EntityListener
