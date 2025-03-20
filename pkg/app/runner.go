@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/angelokurtis/go-otel/span"
 	"github.com/lmittmann/tint"
 	"github.com/samber/lo"
 	ga "saml.dev/gome-assistant"
@@ -54,12 +55,16 @@ func (r *Runner) Run(ctx context.Context) error {
 		return ga.NewEventListener().
 			EventTypes(eventListener.EventTypes()...).
 			Call(func(service *ga.Service, state ga.State, event ga.EventData) {
+				ctx, end := span.Start(ctx)
+				defer end()
+
 				slog.DebugContext(ctx, "Event received",
 					slog.String("event_type", event.Type),
 					slog.String("raw", string(event.RawEventJSON)),
 				)
 
 				if err := eventListener.OnEvent(ctx, event); err != nil {
+					_ = span.Error(ctx, err)
 					slog.ErrorContext(ctx, "Failed to process event", tint.Err(err))
 					return
 				}

@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/angelokurtis/go-otel/starter"
 	"github.com/lmittmann/tint"
 	"go.uber.org/automaxprocs/maxprocs"
 	"golang.org/x/sync/errgroup"
@@ -38,6 +39,12 @@ func run(ctx context.Context) error {
 		Level:      slog.LevelDebug,
 		TimeFormat: time.Kitchen,
 	})))
+
+	_, shutdown, err := starter.StartProviders(context.Background())
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	defer shutdown()
 
 	// Set up GOMAXPROCS to utilize available CPU cores
 	undo, err := maxprocs.Set()
