@@ -82,6 +82,13 @@ func (r *Runner) Run(ctx context.Context) error {
 		slog.Int("count", len(eventListeners)),
 	)
 
+	ga.
+		NewDailySchedule().
+		Call(func(service *ga.Service, state ga.State) {
+		}).
+		Sunrise("-30m").
+		Build()
+
 	r.app.Start()
 
 	slog.InfoContext(ctx, "Application started")
