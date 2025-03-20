@@ -32,7 +32,11 @@ func run(ctx context.Context) error {
 	ctx, stop := signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	_, shutdown, err := starter.StartProviders(ctx)
+	_, shutdown, err := starter.StartProviders(ctx,
+		starter.WithServiceName("go-home-automations"),
+		starter.WithTracesExporter("none"),
+		starter.WithMetricsExporter("none"),
+	)
 	if err != nil {
 		return errors.WithStack(err)
 	}
