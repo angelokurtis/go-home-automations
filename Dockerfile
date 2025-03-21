@@ -1,6 +1,8 @@
 # Build the automations binary
 FROM golang:1.24.1 AS builder
 
+ARG TARGETARCH
+
 WORKDIR /workspace
 # Copy the Go Modules manifests
 COPY go.mod go.mod
@@ -15,7 +17,7 @@ COPY internal/ internal/
 COPY pkg/ pkg/
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o automations ./cmd/app/
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH go build -a -o automations ./cmd/app/
 
 # Use distroless as minimal base image to package the automations binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
