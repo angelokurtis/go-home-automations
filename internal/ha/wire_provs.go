@@ -8,4 +8,5 @@ var Providers = wire.NewSet(
 	LoadConfig,
 	NewApp,
 	NewService,
+	NewState,
 )

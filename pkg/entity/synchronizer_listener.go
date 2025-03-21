@@ -34,15 +34,13 @@ func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.E
 
 			if entity.ToState == "on" {
 				if err := l.service.HomeAssistant.TurnOn(entityId); err != nil {
-					_ = span.Error(ctx, err)
-					return errors.WithStack(err)
+					return errors.WithStack(span.Error(ctx, err))
 				}
 			}
 
 			if entity.ToState == "off" {
 				if err := l.service.HomeAssistant.TurnOff(entityId); err != nil {
-					_ = span.Error(ctx, err)
-					return errors.WithStack(err)
+					return errors.WithStack(span.Error(ctx, err))
 				}
 			}
 
@@ -60,4 +58,14 @@ func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.E
 
 func (l *SynchronizedSwitchesListener) EntityIds() []string {
 	return l.entityIds
+}
+
+func (l *SynchronizedSwitchesListener) turnOn(entityId string, serviceData ...map[string]any) []string {
+	// TODO: implement me
+	panic("implement me")
+}
+
+func (l *SynchronizedSwitchesListener) turnOff(entityId string, serviceData ...map[string]any) []string {
+	// TODO: implement me
+	panic("implement me")
 }
