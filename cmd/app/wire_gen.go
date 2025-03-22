@@ -28,7 +28,8 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 		return nil, nil, err
 	}
 	service := ha.NewService(gomeassistantApp)
-	v := entityListeners(service)
+	state := ha.NewState(gomeassistantApp)
+	v := entityListeners(service, state)
 	v2 := eventListeners()
 	v3 := dailyTasks()
 	v4 := sunsetTasks()

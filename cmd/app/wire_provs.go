@@ -25,11 +25,12 @@ var providers = wire.NewSet(
 	sunriseTasks,
 )
 
-func entityListeners(service *ga.Service) []app.EntityListener {
+func entityListeners(service *ga.Service, state ga.State) []app.EntityListener {
 	return []app.EntityListener{
 		// arandelas de dentro
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_6x_da_copa_l1",
 			"switch.interruptor_6x_da_copa_l2",
 			"switch.interruptor_3x_da_entrada_left",
@@ -37,18 +38,21 @@ func entityListeners(service *ga.Service) []app.EntityListener {
 		// luz da sala
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_3x_da_entrada_center",
 			"switch.interruptor_6x_da_entrada_l1",
 		),
 		// luz da entrada
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_3x_da_entrada_right",
 			"switch.interruptor_6x_da_entrada_l2",
 		),
 		// luz da churrasqueira
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_2x_da_area_gourmet_center",
 			"switch.interruptor_6x_da_area_gourmet_l5",
 			"switch.interruptor_6x_da_copa_l5",
@@ -56,18 +60,21 @@ func entityListeners(service *ga.Service) []app.EntityListener {
 		// arandelas da piscina
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_6x_da_area_gourmet_l1",
 			"switch.interruptor_6x_da_area_gourmet_l6",
 		),
 		// arandela da lateral
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_2x_da_area_gourmet_left",
 			"switch.interruptor_6x_da_copa_l6",
 		),
 		// luzes do jardim
 		entity.NewSynchronizedSwitchesListener(
 			service,
+			state,
 			"switch.interruptor_6x_da_entrada_l3",
 			"switch.interruptor_6x_da_entrada_l4",
 		),
