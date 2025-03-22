@@ -3,6 +3,7 @@ package entity
 import (
 	"context"
 	"log/slog"
+	"sync"
 
 	"github.com/angelokurtis/go-otel/span"
 	"github.com/samber/lo"
@@ -16,6 +17,7 @@ type SynchronizedSwitchesListener struct {
 	service   *ga.Service
 	state     ga.State
 	entityIds []string
+	sync.Mutex
 }
 
 func NewSynchronizedSwitchesListener(service *ga.Service, state ga.State, entityIds ...string) *SynchronizedSwitchesListener {
@@ -23,6 +25,28 @@ func NewSynchronizedSwitchesListener(service *ga.Service, state ga.State, entity
 }
 
 func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.EntityData) error {
+	l.Lock()
+	defer l.Unlock()
+
+	state, err := l.state.Get(entity.TriggerEntityId)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	if state.State != entity.ToState {
+		if state.State != entity.ToState {
+			slog.DebugContext(ctx, "State is already set, no action needed",
+				slog.String("trigger_entity_id", entity.TriggerEntityId),
+				slog.String("current_state", state.State),
+				slog.String("new_state", entity.ToState),
+			)
+
+			return nil
+		}
+
+		return nil
+	}
+
 	entityIds := lo.Without(l.entityIds, entity.TriggerEntityId)
 	p := pool.New().WithMaxGoroutines(10).WithErrors()
 
@@ -34,21 +58,16 @@ func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.E
 			defer end()
 
 			if entity.ToState == "on" {
-				if err := l.service.HomeAssistant.TurnOn(entityId); err != nil {
-					return errors.WithStack(span.Error(ctx, err))
+				if err := l.turnOn(ctx, entityId); err != nil {
+					return span.Error(ctx, err)
 				}
 			}
 
 			if entity.ToState == "off" {
-				if err := l.service.HomeAssistant.TurnOff(entityId); err != nil {
-					return errors.WithStack(span.Error(ctx, err))
+				if err := l.turnOff(ctx, entityId); err != nil {
+					return span.Error(ctx, err)
 				}
 			}
-
-			slog.InfoContext(ctx, "Entity state updated",
-				slog.String("entity-id", entityId),
-				slog.String("new-state", entity.ToState),
-			)
 
 			return nil
 		})
@@ -64,11 +83,6 @@ func (l *SynchronizedSwitchesListener) EntityIds() []string {
 func (l *SynchronizedSwitchesListener) turnOn(ctx context.Context, entityId string, serviceData ...map[string]any) error {
 	state, err := l.state.Get(entityId)
 	if err != nil {
-		slog.ErrorContext(ctx, "Failed to get entity state",
-			slog.String("entity_id", entityId),
-			slog.Any("error", err),
-		)
-
 		return errors.WithStack(err)
 	}
 
@@ -81,11 +95,6 @@ func (l *SynchronizedSwitchesListener) turnOn(ctx context.Context, entityId stri
 	}
 
 	if err = l.service.HomeAssistant.TurnOn(entityId); err != nil {
-		slog.ErrorContext(ctx, "Failed to turn on entity",
-			slog.String("entity_id", entityId),
-			slog.Any("error", err),
-		)
-
 		return errors.WithStack(err)
 	}
 
