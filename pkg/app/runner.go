@@ -93,12 +93,25 @@ func (r *Runner) Run(ctx context.Context) error {
 		slog.Int("count", len(eventListeners)),
 	)
 
-	ga.
-		NewDailySchedule().
-		Call(func(service *ga.Service, state ga.State) {
-		}).
-		Sunrise("-30m").
-		Build()
+	lo.Map(r.dailyTasks, func(dailyTask DailyTask, index int) ga.DailySchedule {
+		return ga.NewDailySchedule().
+			Call(func(service *ga.Service, state ga.State) {
+				ctx, end := span.Start(ctx)
+				defer end()
+
+				slog.DebugContext(ctx, "")
+
+				if err := dailyTask.Execute(ctx); err != nil {
+					_ = span.Error(ctx, err)
+					slog.ErrorContext(ctx, "", tint.Err(err))
+					return
+				}
+
+				slog.InfoContext(ctx, "")
+			}).
+			At(dailyTask.ScheduledTime()).
+			Build()
+	})
 
 	r.app.Start()
 

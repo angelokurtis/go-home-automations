@@ -2,21 +2,19 @@ package app
 
 import (
 	"context"
-
-	ga "saml.dev/gome-assistant"
 )
 
 type DailyTask interface {
-	Execute(ctx context.Context, state ga.State) error
+	Execute(ctx context.Context) error
 	ScheduledTime() string
 }
 
 type SunsetTask interface {
-	Execute(ctx context.Context, state ga.State) error
+	Execute(ctx context.Context) error
 	SunsetOffset() string
 }
 
 type SunriseTask interface {
-	Execute(ctx context.Context, state ga.State) error
+	Execute(ctx context.Context) error
 	SunriseOffset() string
 }
