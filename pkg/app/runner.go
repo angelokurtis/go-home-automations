@@ -62,7 +62,7 @@ func (r *Runner) Run(ctx context.Context) error {
 			Build()
 	})
 	r.app.RegisterEntityListeners(entityListeners...)
-	slog.InfoContext(context.Background(), "Registered entity listeners",
+	slog.InfoContext(ctx, "Registered entity listeners",
 		slog.Int("count", len(entityListeners)),
 	)
 
@@ -89,7 +89,7 @@ func (r *Runner) Run(ctx context.Context) error {
 			Build()
 	})
 	r.app.RegisterEventListeners(eventListeners...)
-	slog.InfoContext(context.Background(), "Registered event listeners",
+	slog.InfoContext(ctx, "Registered event listeners",
 		slog.Int("count", len(eventListeners)),
 	)
 
@@ -99,21 +99,23 @@ func (r *Runner) Run(ctx context.Context) error {
 				ctx, end := span.Start(ctx)
 				defer end()
 
-				slog.DebugContext(ctx, "")
+				slog.DebugContext(ctx, "Executing daily task",
+					slog.String("task_name", dailyTask.Name()),
+				)
 
 				if err := dailyTask.Execute(ctx); err != nil {
 					_ = span.Error(ctx, err)
-					slog.ErrorContext(ctx, "", tint.Err(err))
+					slog.ErrorContext(ctx, "Failed to execute daily task", tint.Err(err))
 					return
 				}
 
-				slog.InfoContext(ctx, "")
+				slog.InfoContext(ctx, "Daily task executed")
 			}).
 			At(dailyTask.ScheduledTime()).
 			Build()
 	})
 	r.app.RegisterSchedules(dailyTasks...)
-	slog.InfoContext(context.Background(), "",
+	slog.InfoContext(ctx, "Registered daily tasks",
 		slog.Int("count", len(dailyTasks)),
 	)
 
@@ -123,21 +125,23 @@ func (r *Runner) Run(ctx context.Context) error {
 				ctx, end := span.Start(ctx)
 				defer end()
 
-				slog.DebugContext(ctx, "")
+				slog.DebugContext(ctx, "Executing sunrise task",
+					slog.String("task_name", sunriseTask.Name()),
+				)
 
 				if err := sunriseTask.Execute(ctx); err != nil {
 					_ = span.Error(ctx, err)
-					slog.ErrorContext(ctx, "", tint.Err(err))
+					slog.ErrorContext(ctx, "Failed to execute sunrise task", tint.Err(err))
 					return
 				}
 
-				slog.InfoContext(ctx, "")
+				slog.InfoContext(ctx, "Sunrise task executed")
 			}).
-			At(sunriseTask.SunriseOffset()).
+			Sunrise(ga.DurationString(sunriseTask.SunriseOffset())).
 			Build()
 	})
 	r.app.RegisterSchedules(sunriseTasks...)
-	slog.InfoContext(context.Background(), "",
+	slog.InfoContext(ctx, "Registered sunrise tasks",
 		slog.Int("count", len(sunriseTasks)),
 	)
 
@@ -147,21 +151,23 @@ func (r *Runner) Run(ctx context.Context) error {
 				ctx, end := span.Start(ctx)
 				defer end()
 
-				slog.DebugContext(ctx, "")
+				slog.DebugContext(ctx, "Executing sunset task",
+					slog.String("task_name", sunsetTask.Name()),
+				)
 
 				if err := sunsetTask.Execute(ctx); err != nil {
 					_ = span.Error(ctx, err)
-					slog.ErrorContext(ctx, "", tint.Err(err))
+					slog.ErrorContext(ctx, "Failed to execute sunset task", tint.Err(err))
 					return
 				}
 
-				slog.InfoContext(ctx, "")
+				slog.InfoContext(ctx, "Sunset task executed")
 			}).
-			At(sunsetTask.SunsetOffset()).
+			Sunset(ga.DurationString(sunsetTask.SunsetOffset())).
 			Build()
 	})
 	r.app.RegisterSchedules(sunsetTasks...)
-	slog.InfoContext(context.Background(), "",
+	slog.InfoContext(ctx, "Registered sunset tasks",
 		slog.Int("count", len(sunsetTasks)),
 	)
 
