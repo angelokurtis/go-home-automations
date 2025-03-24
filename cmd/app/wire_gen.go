@@ -34,7 +34,7 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	v3 := dailyTasks()
 	v4 := sunsetTasks()
 	v5 := sunriseTasks()
-	runner := app.NewRunner(gomeassistantApp, v, v2, v3, v4, v5)
+	runner := app.NewRunner(gomeassistantApp, v, v2, v3, v4, v5, service, state)
 	return runner, func() {
 		cleanup()
 	}, nil

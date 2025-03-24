@@ -87,7 +87,7 @@ func (l *SynchronizedSwitchesListener) turnOn(ctx context.Context, entityId stri
 	}
 
 	if state.State == "on" {
-		slog.InfoContext(ctx, "Entity already on",
+		slog.DebugContext(ctx, "Entity already on",
 			slog.String("entity_id", entityId),
 		)
 
@@ -98,7 +98,7 @@ func (l *SynchronizedSwitchesListener) turnOn(ctx context.Context, entityId stri
 		return errors.WithStack(err)
 	}
 
-	slog.InfoContext(ctx, "Entity turned on successfully",
+	slog.InfoContext(ctx, "Entity turned on",
 		slog.String("entity_id", entityId),
 	)
 
@@ -112,7 +112,7 @@ func (l *SynchronizedSwitchesListener) turnOff(ctx context.Context, entityId str
 	}
 
 	if state.State == "off" {
-		slog.InfoContext(ctx, "Entity already off",
+		slog.DebugContext(ctx, "Entity already off",
 			slog.String("entity_id", entityId),
 		)
 
@@ -123,7 +123,7 @@ func (l *SynchronizedSwitchesListener) turnOff(ctx context.Context, entityId str
 		return errors.WithStack(err)
 	}
 
-	slog.InfoContext(ctx, "Entity turned off successfully",
+	slog.InfoContext(ctx, "Entity turned off",
 		slog.String("entity_id", entityId),
 	)
 
