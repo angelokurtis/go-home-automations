@@ -36,7 +36,7 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 	p := pool.New().WithMaxGoroutines(10).WithErrors()
 
 	for _, entity := range entities {
-		entity := entity
+		entity := entity // avoid loop variable capture
 
 		p.Go(func() error {
 			ctx, end := span.Start(ctx)
