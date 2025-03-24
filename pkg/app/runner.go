@@ -93,7 +93,7 @@ func (r *Runner) Run(ctx context.Context) error {
 		slog.Int("count", len(eventListeners)),
 	)
 
-	lo.Map(r.dailyTasks, func(dailyTask DailyTask, index int) ga.DailySchedule {
+	dailyTasks := lo.Map(r.dailyTasks, func(dailyTask DailyTask, index int) ga.DailySchedule {
 		return ga.NewDailySchedule().
 			Call(func(service *ga.Service, state ga.State) {
 				ctx, end := span.Start(ctx)
@@ -112,6 +112,58 @@ func (r *Runner) Run(ctx context.Context) error {
 			At(dailyTask.ScheduledTime()).
 			Build()
 	})
+	r.app.RegisterSchedules(dailyTasks...)
+	slog.InfoContext(context.Background(), "",
+		slog.Int("count", len(dailyTasks)),
+	)
+
+	sunriseTasks := lo.Map(r.sunriseTasks, func(sunriseTask SunriseTask, index int) ga.DailySchedule {
+		return ga.NewDailySchedule().
+			Call(func(service *ga.Service, state ga.State) {
+				ctx, end := span.Start(ctx)
+				defer end()
+
+				slog.DebugContext(ctx, "")
+
+				if err := sunriseTask.Execute(ctx); err != nil {
+					_ = span.Error(ctx, err)
+					slog.ErrorContext(ctx, "", tint.Err(err))
+					return
+				}
+
+				slog.InfoContext(ctx, "")
+			}).
+			At(sunriseTask.SunriseOffset()).
+			Build()
+	})
+	r.app.RegisterSchedules(sunriseTasks...)
+	slog.InfoContext(context.Background(), "",
+		slog.Int("count", len(sunriseTasks)),
+	)
+
+	sunsetTasks := lo.Map(r.sunsetTasks, func(sunsetTask SunsetTask, index int) ga.DailySchedule {
+		return ga.NewDailySchedule().
+			Call(func(service *ga.Service, state ga.State) {
+				ctx, end := span.Start(ctx)
+				defer end()
+
+				slog.DebugContext(ctx, "")
+
+				if err := sunsetTask.Execute(ctx); err != nil {
+					_ = span.Error(ctx, err)
+					slog.ErrorContext(ctx, "", tint.Err(err))
+					return
+				}
+
+				slog.InfoContext(ctx, "")
+			}).
+			At(sunsetTask.SunsetOffset()).
+			Build()
+	})
+	r.app.RegisterSchedules(sunsetTasks...)
+	slog.InfoContext(context.Background(), "",
+		slog.Int("count", len(sunsetTasks)),
+	)
 
 	r.app.Start()
 
