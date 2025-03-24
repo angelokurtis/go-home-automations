@@ -32,7 +32,7 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	v := entityListeners(service, state)
 	v2 := eventListeners()
 	v3 := dailyTasks(service, state)
-	v4 := sunsetTasks()
+	v4 := sunsetTasks(service, state)
 	v5 := sunriseTasks()
 	runner := app.NewRunner(gomeassistantApp, v, v2, v3, v4, v5, service, state)
 	return runner, func() {

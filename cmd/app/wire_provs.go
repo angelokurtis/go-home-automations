@@ -92,8 +92,16 @@ func dailyTasks(service *ga.Service, state ga.State) []app.DailyTask {
 	}
 }
 
-func sunsetTasks() []app.SunsetTask {
-	return []app.SunsetTask{}
+func sunsetTasks(service *ga.Service, state ga.State) []app.SunsetTask {
+	return []app.SunsetTask{
+		task.NewEveningLights(service, state, []string{
+			"light.arandela_da_sala",
+			"light.arandela_da_copa",
+			"light.numero_da_casa",
+			"light.chao_do_jardim",
+			"light.lateral",
+		}),
+	}
 }
 
 func sunriseTasks() []app.SunriseTask {

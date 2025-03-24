@@ -42,7 +42,7 @@ func (e *EveningLights) Execute(ctx context.Context) error {
 	return p.Wait()
 }
 
-func (e *EveningLights) SunsetOnset() string {
+func (e *EveningLights) SunsetOffset() string {
 	return "1m"
 }
 
