@@ -3,14 +3,11 @@ package app
 import (
 	"context"
 	"log/slog"
-	"strings"
 
 	"github.com/angelokurtis/go-otel/span"
 	"github.com/lmittmann/tint"
 	"github.com/samber/lo"
 	ga "saml.dev/gome-assistant"
-
-	"github.com/angelokurtis/go-home-automations/internal/errors"
 )
 
 type Runner struct {
@@ -31,15 +28,6 @@ func NewRunner(app *ga.App, entityListeners []EntityListener, eventListeners []E
 
 func (r *Runner) Run(ctx context.Context) error {
 	slog.InfoContext(ctx, "Starting application")
-
-	entities, err := r.state.ListEntities()
-	if err != nil {
-		return errors.WithStack(err)
-	}
-
-	entities = lo.Filter(entities, func(item ga.EntityState, index int) bool {
-		return strings.HasPrefix(item.EntityID, "switch.") && item.EntityID != "switch.zigbee2mqtt_bridge_permit_join"
-	})
 
 	entityListeners := lo.Map(r.entityListeners, func(entityListener EntityListener, index int) ga.EntityListener {
 		return ga.NewEntityListener().
