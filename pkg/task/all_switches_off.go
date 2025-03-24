@@ -14,12 +14,13 @@ import (
 )
 
 type AllSwitchesOff struct {
-	service *ga.Service
-	state   ga.State
+	service       *ga.Service
+	state         ga.State
+	scheduledTime string
 }
 
-func NewAllSwitchesOff(service *ga.Service, state ga.State) *AllSwitchesOff {
-	return &AllSwitchesOff{service: service, state: state}
+func NewAllSwitchesOff(service *ga.Service, state ga.State, scheduledTime string) *AllSwitchesOff {
+	return &AllSwitchesOff{service: service, state: state, scheduledTime: scheduledTime}
 }
 
 func (a *AllSwitchesOff) Execute(ctx context.Context) error {
@@ -53,7 +54,7 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 }
 
 func (a *AllSwitchesOff) ScheduledTime() string {
-	return "17:04"
+	return a.scheduledTime
 }
 
 func (a *AllSwitchesOff) Name() string {

@@ -88,7 +88,7 @@ func eventListeners() []app.EventListener {
 
 func dailyTasks(service *ga.Service, state ga.State) []app.DailyTask {
 	return []app.DailyTask{
-		task.NewAllSwitchesOff(service, state),
+		task.NewAllSwitchesOff(service, state, "23:30"),
 	}
 }
 
