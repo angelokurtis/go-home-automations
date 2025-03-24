@@ -8,6 +8,7 @@ import (
 	"github.com/angelokurtis/go-home-automations/internal/term"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 	"github.com/angelokurtis/go-home-automations/pkg/entity"
+	"github.com/angelokurtis/go-home-automations/pkg/task"
 )
 
 //nolint:unused // This function is used during compile-time to generate code for dependency injection
@@ -85,8 +86,10 @@ func eventListeners() []app.EventListener {
 	return []app.EventListener{}
 }
 
-func dailyTasks() []app.DailyTask {
-	return []app.DailyTask{}
+func dailyTasks(service *ga.Service, state ga.State) []app.DailyTask {
+	return []app.DailyTask{
+		task.NewAllSwitchesOff(service, state),
+	}
 }
 
 func sunsetTasks() []app.SunsetTask {

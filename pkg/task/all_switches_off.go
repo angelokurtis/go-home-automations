@@ -53,7 +53,7 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 }
 
 func (a *AllSwitchesOff) ScheduledTime() string {
-	return "17:00"
+	return "17:04"
 }
 
 func (a *AllSwitchesOff) Name() string {
