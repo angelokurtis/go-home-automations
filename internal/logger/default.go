@@ -13,7 +13,7 @@ func init() {
 	// Create a new handler with tint colorized output
 	handler := tint.NewHandler(os.Stderr, &tint.Options{
 		AddSource:  true,
-		Level:      slog.LevelDebug,
+		Level:      slog.LevelInfo,
 		TimeFormat: time.Kitchen,
 	})
 

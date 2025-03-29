@@ -9,6 +9,7 @@ package main
 import (
 	"context"
 	"github.com/angelokurtis/go-home-automations/internal/ha"
+	"github.com/angelokurtis/go-home-automations/pkg/action"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 )
 
@@ -31,7 +32,8 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	state := ha.NewState(gomeassistantApp)
 	v := entityListeners(service, state)
 	v2 := eventListeners()
-	v3 := dailyTasks(service, state)
+	allSwitchesOff := action.NewAllSwitchesOff(service, state)
+	v3 := dailyTasks(allSwitchesOff)
 	v4 := sunsetTasks(service, state)
 	v5 := sunriseTasks()
 	runner := app.NewRunner(gomeassistantApp, v, v2, v3, v4, v5, service, state)

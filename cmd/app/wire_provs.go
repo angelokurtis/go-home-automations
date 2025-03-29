@@ -6,6 +6,7 @@ import (
 
 	"github.com/angelokurtis/go-home-automations/internal/ha"
 	"github.com/angelokurtis/go-home-automations/internal/term"
+	"github.com/angelokurtis/go-home-automations/pkg/action"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 	"github.com/angelokurtis/go-home-automations/pkg/entity"
 	"github.com/angelokurtis/go-home-automations/pkg/task"
@@ -18,7 +19,7 @@ var providers = wire.NewSet(
 	term.Providers,
 	wire.Bind(new(Runner), new(*app.Runner)),
 	wire.Bind(new(term.Renderer), new(*term.MarkdownRenderer)),
-
+	action.Providers,
 	entityListeners,
 	eventListeners,
 	dailyTasks,
@@ -86,9 +87,9 @@ func eventListeners() []app.EventListener {
 	return []app.EventListener{}
 }
 
-func dailyTasks(service *ga.Service, state ga.State) []app.DailyTask {
+func dailyTasks(allSwitchesOff *action.AllSwitchesOff) []app.DailyTask {
 	return []app.DailyTask{
-		task.NewAllSwitchesOff(service, state, "23:30"),
+		task.NewDaily(allSwitchesOff, "23:30", "Apagar Todas os Interruptores"),
 	}
 }
 

@@ -1,4 +1,4 @@
-package task
+package action
 
 import (
 	"context"
@@ -14,13 +14,12 @@ import (
 )
 
 type AllSwitchesOff struct {
-	service       *ga.Service
-	state         ga.State
-	scheduledTime string
+	service *ga.Service
+	state   ga.State
 }
 
-func NewAllSwitchesOff(service *ga.Service, state ga.State, scheduledTime string) *AllSwitchesOff {
-	return &AllSwitchesOff{service: service, state: state, scheduledTime: scheduledTime}
+func NewAllSwitchesOff(service *ga.Service, state ga.State) *AllSwitchesOff {
+	return &AllSwitchesOff{service: service, state: state}
 }
 
 func (a *AllSwitchesOff) Execute(ctx context.Context) error {
@@ -51,14 +50,6 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 	}
 
 	return p.Wait()
-}
-
-func (a *AllSwitchesOff) ScheduledTime() string {
-	return a.scheduledTime
-}
-
-func (a *AllSwitchesOff) Name() string {
-	return "Apagar Todas os Interruptores"
 }
 
 func (a *AllSwitchesOff) turnOff(ctx context.Context, entityId string, serviceData ...map[string]any) error {
