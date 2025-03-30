@@ -12,6 +12,7 @@ import (
 	"github.com/angelokurtis/go-home-automations/pkg/action"
 	"github.com/angelokurtis/go-home-automations/pkg/app"
 	"github.com/angelokurtis/go-home-automations/pkg/entity"
+	"github.com/angelokurtis/go-home-automations/pkg/task"
 )
 
 import (
@@ -36,7 +37,8 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	v2 := eventListeners()
 	allSwitchesOff := action.NewAllSwitchesOff(service, state)
 	v3 := dailyTasks(allSwitchesOff)
-	v4 := sunsetTasks(service, state)
+	eveningLightsOn := task.NewEveningLightsOn(service, state)
+	v4 := sunsetTasks(eveningLightsOn)
 	v5 := sunriseTasks()
 	runner := app.NewRunner(gomeassistantApp, v, v2, v3, v4, v5, service, state)
 	return runner, func() {

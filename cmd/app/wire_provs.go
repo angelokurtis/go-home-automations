@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/google/wire"
-	ga "saml.dev/gome-assistant"
 
 	"github.com/angelokurtis/go-home-automations/internal/ha"
 	"github.com/angelokurtis/go-home-automations/internal/term"
@@ -50,15 +49,9 @@ func dailyTasks(allSwitchesOff *action.AllSwitchesOff) []app.DailyTask {
 	}
 }
 
-func sunsetTasks(service *ga.Service, state ga.State) []app.SunsetTask {
+func sunsetTasks(eveningLights *task.EveningLightsOn) []app.SunsetTask {
 	return []app.SunsetTask{
-		task.NewEveningLights(service, state, []string{
-			"light.arandela_da_sala",
-			"light.arandela_da_copa",
-			"light.numero_da_casa",
-			"light.chao_do_jardim",
-			"light.lateral",
-		}),
+		eveningLights,
 	}
 }
 

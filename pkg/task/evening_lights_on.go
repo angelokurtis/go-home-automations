@@ -11,20 +11,29 @@ import (
 	"github.com/angelokurtis/go-home-automations/internal/errors"
 )
 
-type EveningLights struct {
-	service   *ga.Service
-	state     ga.State
-	entityIDs []string
+type EveningLightsOn struct {
+	service *ga.Service
+	state   ga.State
 }
 
-func NewEveningLights(service *ga.Service, state ga.State, entityIDs []string) *EveningLights {
-	return &EveningLights{service: service, state: state, entityIDs: entityIDs}
+func NewEveningLightsOn(service *ga.Service, state ga.State) *EveningLightsOn {
+	return &EveningLightsOn{service: service, state: state}
 }
 
-func (e *EveningLights) Execute(ctx context.Context) error {
+func (e *EveningLightsOn) EntityIDs() []string {
+	return []string{
+		"light.arandela_da_sala",
+		"light.arandela_da_copa",
+		"light.numero_da_casa",
+		"light.chao_do_jardim",
+		"light.lateral",
+	}
+}
+
+func (e *EveningLightsOn) Execute(ctx context.Context) error {
 	p := pool.New().WithMaxGoroutines(10).WithErrors()
 
-	for _, entityID := range e.entityIDs {
+	for _, entityID := range e.EntityIDs() {
 		entityID := entityID // avoid loop variable capture
 
 		p.Go(func() error {
@@ -42,15 +51,15 @@ func (e *EveningLights) Execute(ctx context.Context) error {
 	return p.Wait()
 }
 
-func (e *EveningLights) SunsetOffset() string {
+func (e *EveningLightsOn) SunsetOffset() string {
 	return "1m"
 }
 
-func (e *EveningLights) Name() string {
+func (e *EveningLightsOn) Name() string {
 	return "Luzes ao Pôr do Sol"
 }
 
-func (e *EveningLights) turnOn(ctx context.Context, entityId string, serviceData ...map[string]any) error {
+func (e *EveningLightsOn) turnOn(ctx context.Context, entityId string, serviceData ...map[string]any) error {
 	state, err := e.state.Get(entityId)
 	if err != nil {
 		return errors.WithStack(err)
