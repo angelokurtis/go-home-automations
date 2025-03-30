@@ -13,6 +13,66 @@ import (
 	"github.com/angelokurtis/go-home-automations/internal/errors"
 )
 
+type SynchronizedSwitchesListeners []*SynchronizedSwitchesListener
+
+func NewSynchronizedSwitchesListeners(service *ga.Service, state ga.State) SynchronizedSwitchesListeners {
+	listeners := SynchronizedSwitchesListeners{
+		// arandelas de dentro
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_6x_da_copa_l1",
+			"switch.interruptor_6x_da_copa_l2",
+			"switch.interruptor_3x_da_entrada_left",
+		),
+		// luz da sala
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_3x_da_entrada_center",
+			"switch.interruptor_6x_da_entrada_l1",
+		),
+		// luz da entrada
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_3x_da_entrada_right",
+			"switch.interruptor_6x_da_entrada_l2",
+		),
+		// luz da churrasqueira
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_2x_da_area_gourmet_center",
+			"switch.interruptor_6x_da_area_gourmet_l5",
+			"switch.interruptor_6x_da_copa_l5",
+		),
+		// arandelas da piscina
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_6x_da_area_gourmet_l1",
+			"switch.interruptor_6x_da_area_gourmet_l6",
+		),
+		// arandela da lateral
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_2x_da_area_gourmet_left",
+			"switch.interruptor_6x_da_copa_l6",
+		),
+		// luzes do jardim
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_6x_da_entrada_l3",
+			"switch.interruptor_6x_da_entrada_l4",
+		),
+	}
+
+	return listeners
+}
+
 type SynchronizedSwitchesListener struct {
 	service   *ga.Service
 	state     ga.State
@@ -20,7 +80,7 @@ type SynchronizedSwitchesListener struct {
 	sync.Mutex
 }
 
-func NewSynchronizedSwitchesListener(service *ga.Service, state ga.State, entityIds ...string) *SynchronizedSwitchesListener {
+func newSynchronizedSwitchesListener(service *ga.Service, state ga.State, entityIds ...string) *SynchronizedSwitchesListener {
 	return &SynchronizedSwitchesListener{service: service, state: state, entityIds: entityIds}
 }
 
