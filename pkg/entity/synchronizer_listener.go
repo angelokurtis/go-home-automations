@@ -45,7 +45,7 @@ func NewSynchronizedSwitchesListeners(service *ga.Service, state ga.State) Synch
 			state,
 			"switch.interruptor_2x_da_area_gourmet_center",
 			"switch.interruptor_6x_da_area_gourmet_l5",
-			"switch.interruptor_6x_da_copa_l5",
+			"switch.interruptor_6x_da_copa_l4",
 		),
 		// arandelas da piscina
 		newSynchronizedSwitchesListener(
@@ -59,7 +59,7 @@ func NewSynchronizedSwitchesListeners(service *ga.Service, state ga.State) Synch
 			service,
 			state,
 			"switch.interruptor_2x_da_area_gourmet_left",
-			"switch.interruptor_6x_da_copa_l6",
+			"switch.interruptor_6x_da_copa_l5",
 		),
 		// luzes do jardim
 		newSynchronizedSwitchesListener(
@@ -67,6 +67,13 @@ func NewSynchronizedSwitchesListeners(service *ga.Service, state ga.State) Synch
 			state,
 			"switch.interruptor_6x_da_entrada_l3",
 			"switch.interruptor_6x_da_entrada_l4",
+		),
+		// luzes do mezanino
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_1x_do_mezanino",
+			"switch.interruptor_6x_da_copa_l6",
 		),
 	}
 
