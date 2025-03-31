@@ -75,6 +75,21 @@ func NewSynchronizedSwitchesListeners(service *ga.Service, state ga.State) Synch
 			"switch.interruptor_1x_do_mezanino",
 			"switch.interruptor_6x_da_copa_l6",
 		),
+		// luzes da cozinha
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_da_cozinha_l1",
+			"switch.interruptor_da_cozinha2_l1",
+		),
+		// luzes da lavanderia
+		newSynchronizedSwitchesListener(
+			service,
+			state,
+			"switch.interruptor_da_lavanderia_l1",
+			"switch.interruptor_da_cozinha_l2",
+			"switch.interruptor_da_cozinha2_l2",
+		),
 	}
 
 	return listeners
