@@ -2,9 +2,11 @@ package action
 
 import (
 	"context"
-	"github.com/angelokurtis/go-home-automations/pkg/app"
+
 	"github.com/angelokurtis/go-otel/span"
 	"github.com/sourcegraph/conc/pool"
+
+	"github.com/angelokurtis/go-home-automations/pkg/app"
 )
 
 type EveningLightsOn struct {

@@ -2,12 +2,18 @@ package entity
 
 import (
 	"context"
-	"github.com/angelokurtis/go-home-automations/pkg/action"
+
 	ga "saml.dev/gome-assistant"
+
+	"github.com/angelokurtis/go-home-automations/pkg/action"
 )
 
 type EveningLightsOn struct {
-	act action.EveningLightsOn
+	act *action.EveningLightsOn
+}
+
+func NewEveningLightsOn(act *action.EveningLightsOn) *EveningLightsOn {
+	return &EveningLightsOn{act: act}
 }
 
 func (e *EveningLightsOn) OnChange(ctx context.Context, entity ga.EntityData) error {

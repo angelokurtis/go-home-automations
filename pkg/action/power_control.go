@@ -2,12 +2,12 @@ package action
 
 import (
 	"context"
-	"github.com/angelokurtis/go-home-automations/pkg/app"
 	"log/slog"
 
 	ga "saml.dev/gome-assistant"
 
 	"github.com/angelokurtis/go-home-automations/internal/errors"
+	"github.com/angelokurtis/go-home-automations/pkg/app"
 )
 
 type PowerControl struct {

@@ -33,8 +33,8 @@ var providers = wire.NewSet(
 	sunriseTasks,
 )
 
-func entityListeners(synchronizedSwitches entity.SynchronizedSwitchesListeners) []app.EntityListener {
-	var listeners []app.EntityListener
+func entityListeners(synchronizedSwitches entity.SynchronizedSwitchesListeners, eveningLightsOn *entity.EveningLightsOn, allSwitchesOff *entity.AllSwitchesOff) []app.EntityListener {
+	listeners := []app.EntityListener{eveningLightsOn, allSwitchesOff}
 	for _, listener := range synchronizedSwitches {
 		listeners = append(listeners, listener)
 	}

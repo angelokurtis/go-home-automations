@@ -6,5 +6,6 @@ import (
 
 var Providers = wire.NewSet(
 	NewAllSwitchesOff,
+	NewEveningLightsOn,
 	NewSynchronizedSwitchesListeners,
 )

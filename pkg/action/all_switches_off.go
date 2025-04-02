@@ -2,6 +2,7 @@ package action
 
 import (
 	"context"
+	"log/slog"
 	"strings"
 
 	"github.com/angelokurtis/go-otel/span"
@@ -31,6 +32,8 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 	entities = lo.Filter(entities, func(item ga.EntityState, index int) bool {
 		return strings.HasPrefix(item.EntityID, "switch.") && item.EntityID != "switch.zigbee2mqtt_bridge_permit_join"
 	})
+
+	slog.InfoContext(ctx, "Fetched switches to turn off", slog.Int("count", len(entities)))
 
 	p := pool.New().WithMaxGoroutines(10).WithErrors()
 
