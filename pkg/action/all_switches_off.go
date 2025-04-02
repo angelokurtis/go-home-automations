@@ -14,16 +14,16 @@ import (
 )
 
 type AllSwitchesOff struct {
-	state ga.State
-	pc    app.PowerControl
+	er app.EntityReader
+	pc app.PowerControl
 }
 
-func NewAllSwitchesOff(state ga.State, pc app.PowerControl) *AllSwitchesOff {
-	return &AllSwitchesOff{state: state, pc: pc}
+func NewAllSwitchesOff(er app.EntityReader, pc app.PowerControl) *AllSwitchesOff {
+	return &AllSwitchesOff{er: er, pc: pc}
 }
 
 func (a *AllSwitchesOff) Execute(ctx context.Context) error {
-	entities, err := a.state.ListEntities()
+	entities, err := a.er.ListEntities()
 	if err != nil {
 		return errors.WithStack(err)
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/google/wire"
+	ga "saml.dev/gome-assistant"
 
 	"github.com/angelokurtis/go-home-automations/internal/ha"
 	"github.com/angelokurtis/go-home-automations/internal/term"
@@ -14,16 +15,17 @@ import (
 
 //nolint:unused // This function is used during compile-time to generate code for dependency injection
 var providers = wire.NewSet(
+	action.Providers,
 	app.NewRunner,
+	entity.Providers,
+	event.Providers,
 	ha.Providers,
+	task.Providers,
 	term.Providers,
+	wire.Bind(new(app.EntityReader), new(ga.State)),
 	wire.Bind(new(app.PowerControl), new(*action.PowerControl)),
 	wire.Bind(new(Runner), new(*app.Runner)),
 	wire.Bind(new(term.Renderer), new(*term.MarkdownRenderer)),
-	action.Providers,
-	entity.Providers,
-	event.Providers,
-	task.Providers,
 	entityListeners,
 	eventListeners,
 	dailyTasks,
