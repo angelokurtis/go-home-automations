@@ -2,7 +2,6 @@ package action
 
 import (
 	"context"
-	"log/slog"
 	"strings"
 
 	"github.com/angelokurtis/go-otel/span"
@@ -11,15 +10,16 @@ import (
 	ga "saml.dev/gome-assistant"
 
 	"github.com/angelokurtis/go-home-automations/internal/errors"
+	"github.com/angelokurtis/go-home-automations/pkg/app"
 )
 
 type AllSwitchesOff struct {
-	service *ga.Service
-	state   ga.State
+	state ga.State
+	pc    app.PowerControl
 }
 
-func NewAllSwitchesOff(service *ga.Service, state ga.State) *AllSwitchesOff {
-	return &AllSwitchesOff{service: service, state: state}
+func NewAllSwitchesOff(state ga.State, pc app.PowerControl) *AllSwitchesOff {
+	return &AllSwitchesOff{state: state, pc: pc}
 }
 
 func (a *AllSwitchesOff) Execute(ctx context.Context) error {
@@ -41,7 +41,7 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 			ctx, end := span.Start(ctx)
 			defer end()
 
-			if err := a.turnOff(ctx, entity.EntityID); err != nil {
+			if err := a.pc.TurnOff(ctx, entity.EntityID); err != nil {
 				return span.Error(ctx, err)
 			}
 
@@ -50,29 +50,4 @@ func (a *AllSwitchesOff) Execute(ctx context.Context) error {
 	}
 
 	return p.Wait()
-}
-
-func (a *AllSwitchesOff) turnOff(ctx context.Context, entityId string, serviceData ...map[string]any) error {
-	state, err := a.state.Get(entityId)
-	if err != nil {
-		return errors.WithStack(err)
-	}
-
-	if state.State == "off" {
-		slog.DebugContext(ctx, "Entity already off",
-			slog.String("entity_id", entityId),
-		)
-
-		return nil
-	}
-
-	if err = a.service.HomeAssistant.TurnOff(entityId); err != nil {
-		return errors.WithStack(err)
-	}
-
-	slog.InfoContext(ctx, "Entity turned off",
-		slog.String("entity_id", entityId),
-	)
-
-	return nil
 }

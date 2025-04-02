@@ -17,6 +17,7 @@ var providers = wire.NewSet(
 	app.NewRunner,
 	ha.Providers,
 	term.Providers,
+	wire.Bind(new(app.PowerControl), new(*action.PowerControl)),
 	wire.Bind(new(Runner), new(*app.Runner)),
 	wire.Bind(new(term.Renderer), new(*term.MarkdownRenderer)),
 	action.Providers,

@@ -14,6 +14,10 @@ type PowerControl struct {
 	state ga.State
 }
 
+func NewPowerControl(svc *ga.Service, state ga.State) *PowerControl {
+	return &PowerControl{svc: svc, state: state}
+}
+
 func (p *PowerControl) TurnOn(ctx context.Context, entityID string, data map[string]any) error {
 	state, err := p.state.Get(entityID)
 	if err != nil {
