@@ -2,6 +2,7 @@ package action
 
 import (
 	"context"
+	"github.com/angelokurtis/go-home-automations/pkg/app"
 	"log/slog"
 
 	ga "saml.dev/gome-assistant"
@@ -10,16 +11,16 @@ import (
 )
 
 type PowerControl struct {
-	svc   *ga.Service
-	state ga.State
+	er  app.EntityReader
+	svc *ga.Service
 }
 
-func NewPowerControl(svc *ga.Service, state ga.State) *PowerControl {
-	return &PowerControl{svc: svc, state: state}
+func NewPowerControl(er app.EntityReader, svc *ga.Service) *PowerControl {
+	return &PowerControl{er: er, svc: svc}
 }
 
 func (p *PowerControl) TurnOn(ctx context.Context, entityID string, serviceData ...map[string]any) error {
-	state, err := p.state.Get(entityID)
+	state, err := p.er.Get(entityID)
 	if err != nil {
 		return errors.WithStack(err)
 	}
@@ -39,7 +40,7 @@ func (p *PowerControl) TurnOn(ctx context.Context, entityID string, serviceData 
 }
 
 func (p *PowerControl) TurnOff(ctx context.Context, entityID string) error {
-	state, err := p.state.Get(entityID)
+	state, err := p.er.Get(entityID)
 	if err != nil {
 		return errors.WithStack(err)
 	}
