@@ -36,7 +36,7 @@ func (r *Runner) Run(ctx context.Context) error {
 				ctx, end := span.Start(ctx)
 				defer end()
 
-				slog.DebugContext(ctx, "Entity state changed",
+				slog.InfoContext(ctx, "Entity state changed",
 					slog.String("entity_id", entity.TriggerEntityId),
 					slog.String("new_state", entity.ToState),
 				)
