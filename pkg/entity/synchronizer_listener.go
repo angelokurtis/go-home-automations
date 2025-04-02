@@ -91,6 +91,13 @@ func NewSynchronizedSwitchesListeners(pc app.PowerControl, state ga.State) Synch
 			"switch.interruptor_da_cozinha_l2",
 			"switch.interruptor_da_cozinha2_l2",
 		),
+		// luzes da copa
+		newSynchronizedSwitchesListener(
+			pc,
+			state,
+			"switch.interruptor_6x_da_copa2_l1",
+			"switch.interruptor_6x_da_copa2_l2",
+		),
 	}
 
 	return listeners
