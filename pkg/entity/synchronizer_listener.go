@@ -124,15 +124,11 @@ func (l *SynchronizedSwitchesListener) OnChange(ctx context.Context, entity ga.E
 	}
 
 	if state.State != entity.ToState {
-		if state.State != entity.ToState {
-			slog.DebugContext(ctx, "State is already set, no action needed",
-				slog.String("trigger_entity_id", entity.TriggerEntityId),
-				slog.String("current_state", state.State),
-				slog.String("new_state", entity.ToState),
-			)
-
-			return nil
-		}
+		slog.DebugContext(ctx, "No action needed",
+			slog.String("trigger_entity_id", entity.TriggerEntityId),
+			slog.String("trigged_state", entity.ToState),
+			slog.String("current_state", state.State),
+		)
 
 		return nil
 	}
