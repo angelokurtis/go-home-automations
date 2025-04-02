@@ -38,7 +38,7 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	v2 := eventListeners()
 	allSwitchesOff := action.NewAllSwitchesOff(state, powerControl)
 	v3 := dailyTasks(allSwitchesOff)
-	eveningLightsOn := task.NewEveningLightsOn(service, state)
+	eveningLightsOn := task.NewEveningLightsOn(powerControl)
 	v4 := sunsetTasks(eveningLightsOn)
 	v5 := sunriseTasks()
 	runner := app.NewRunner(gomeassistantApp, v, v2, v3, v4, v5, service, state)
