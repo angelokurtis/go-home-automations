@@ -48,7 +48,7 @@ func eventListeners() []app.EventListener {
 
 func dailyTasks(allSwitchesOff *action.AllSwitchesOff) []app.DailyTask {
 	return []app.DailyTask{
-		task.NewDaily(allSwitchesOff, "23:30", "Apagar Todas os Interruptores"),
+		task.NewDaily(allSwitchesOff, "22:50", "Apagar Todas os Interruptores"),
 	}
 }
 
