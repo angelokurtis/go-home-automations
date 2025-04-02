@@ -30,9 +30,9 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	service := ha.NewService(gomeassistantApp)
 	state := ha.NewState(gomeassistantApp)
-	powerControl := action.NewPowerControl(service, state)
+	service := ha.NewService(gomeassistantApp)
+	powerControl := action.NewPowerControl(state, service)
 	synchronizedSwitchesListeners := entity.NewSynchronizedSwitchesListeners(powerControl, state)
 	v := entityListeners(synchronizedSwitchesListeners)
 	v2 := eventListeners()
