@@ -32,10 +32,10 @@ func NewRunner(ctx context.Context) (Runner, func(), error) {
 	}
 	service := ha.NewService(gomeassistantApp)
 	state := ha.NewState(gomeassistantApp)
-	synchronizedSwitchesListeners := entity.NewSynchronizedSwitchesListeners(service, state)
+	powerControl := action.NewPowerControl(service, state)
+	synchronizedSwitchesListeners := entity.NewSynchronizedSwitchesListeners(powerControl, state)
 	v := entityListeners(synchronizedSwitchesListeners)
 	v2 := eventListeners()
-	powerControl := action.NewPowerControl(service, state)
 	allSwitchesOff := action.NewAllSwitchesOff(state, powerControl)
 	v3 := dailyTasks(allSwitchesOff)
 	eveningLightsOn := task.NewEveningLightsOn(service, state)

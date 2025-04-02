@@ -18,7 +18,7 @@ func NewPowerControl(svc *ga.Service, state ga.State) *PowerControl {
 	return &PowerControl{svc: svc, state: state}
 }
 
-func (p *PowerControl) TurnOn(ctx context.Context, entityID string, data map[string]any) error {
+func (p *PowerControl) TurnOn(ctx context.Context, entityID string, serviceData ...map[string]any) error {
 	state, err := p.state.Get(entityID)
 	if err != nil {
 		return errors.WithStack(err)
@@ -29,7 +29,7 @@ func (p *PowerControl) TurnOn(ctx context.Context, entityID string, data map[str
 		return nil
 	}
 
-	if err = p.svc.HomeAssistant.TurnOn(entityID, data); err != nil {
+	if err = p.svc.HomeAssistant.TurnOn(entityID, serviceData...); err != nil {
 		return errors.WithStack(err)
 	}
 
