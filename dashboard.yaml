@@ -1,0 +1,26 @@
+title: Luzes e Botões
+views:
+  - title: Luzes e Botões
+    path: luzes-botoes
+    icon: mdi:lightbulb
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: entities
+          title: 💡 Luzes (A-Z)
+        filter:
+          include:
+            - domain: light
+        sort:
+          method: friendly_name
+          numeric: false
+      - type: custom:auto-entities
+        card:
+          type: entities
+          title: 🎛️ Botões (A-Z)
+        filter:
+          include:
+            - domain: input_button
+        sort:
+          method: friendly_name
+          numeric: false
