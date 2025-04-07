@@ -11,6 +11,15 @@ views:
         filter:
           include:
             - domain: light
+          exclude:
+            - entity_id: light.arandela_da_casa_de_maquina
+            - entity_id: light.arandela_da_copa
+            - entity_id: light.arandela_da_sala
+            - entity_id: light.arandelas_da_piscina
+            - entity_id: light.chao_do_jardim
+            - entity_id: light.numero_da_casa
+            - entity_id: light.spot_da_copa1
+            - entity_id: light.spot_da_copa2
         sort:
           method: friendly_name
           numeric: false

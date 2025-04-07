@@ -21,7 +21,7 @@ func (e *EveningLightsOn) EntityIDs() []string {
 		"light.arandela_da_copa",
 		"light.numero_da_casa",
 		"light.chao_do_jardim",
-		"light.lateral",
+		"light.lateral1",
 		"light.lateral2",
 	}
 }
