@@ -75,7 +75,13 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	fmt.Println(string(y))
+	// Write YAML to file
+	outputFile := "automations.yaml"
+	if err := os.WriteFile(outputFile, y, 0o644); err != nil {
+		return fmt.Errorf("failed to write YAML to file: %w", err)
+	}
+
+	slog.InfoContext(ctx, "YAML successfully written to file", "file", outputFile)
 
 	return nil
 }
