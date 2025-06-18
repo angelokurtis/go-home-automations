@@ -20,5 +20,17 @@ func main() {
 }
 
 func run(ctx context.Context) error {
+	automations := make(Automations, 0)
+	for _, group := range groups {
+		for _, sw := range group.Switches {
+			automations = append(automations, Automation{
+				Alias:       "Sync " + sw,
+				Description: "",
+				Triggers:    nil,
+				Actions:     nil,
+				Mode:        "",
+			})
+		}
+	}
 	return nil
 }

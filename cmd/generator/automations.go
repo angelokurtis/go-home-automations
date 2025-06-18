@@ -27,39 +27,39 @@ func (r *Automations) Marshal() ([]byte, error) {
 }
 
 type Automation struct {
-	ID          string    `yaml:"id"`
-	Alias       string    `yaml:"alias"`
-	Description string    `yaml:"description"`
-	Triggers    []Trigger `yaml:"triggers"`
-	Actions     []Action  `yaml:"actions"`
-	Mode        string    `yaml:"mode"`
+	ID          string    `yaml:"id,omitempty"`
+	Alias       string    `yaml:"alias,omitempty"`
+	Description string    `yaml:"description,omitempty"`
+	Triggers    []Trigger `yaml:"triggers,omitempty"`
+	Actions     []Action  `yaml:"actions,omitempty"`
+	Mode        string    `yaml:"mode,omitempty"`
 }
 
 type Action struct {
-	Choose []Choose `yaml:"choose"`
+	Choose []Choose `yaml:"choose,omitempty"`
 }
 
 type Choose struct {
-	Conditions []Condition `yaml:"conditions"`
-	Sequence   []Sequence  `yaml:"sequence"`
+	Conditions []Condition `yaml:"conditions,omitempty"`
+	Sequence   []Sequence  `yaml:"sequence,omitempty"`
 }
 
 type Condition struct {
-	Condition string `yaml:"condition"`
-	EntityID  string `yaml:"entity_id"`
-	State     string `yaml:"state"`
+	Condition string `yaml:"condition,omitempty"`
+	EntityID  string `yaml:"entity_id,omitempty"`
+	State     string `yaml:"state,omitempty"`
 }
 
 type Sequence struct {
-	Target Target `yaml:"target"`
-	Action string `yaml:"action"`
+	Target Target `yaml:"target,omitempty"`
+	Action string `yaml:"action,omitempty"`
 }
 
 type Target struct {
-	EntityID string `yaml:"entity_id"`
+	EntityID string `yaml:"entity_id,omitempty"`
 }
 
 type Trigger struct {
-	EntityID string `yaml:"entity_id"`
-	Trigger  string `yaml:"trigger"`
+	EntityID string `yaml:"entity_id,omitempty"`
+	Trigger  string `yaml:"trigger,omitempty"`
 }
