@@ -19,6 +19,6 @@ func main() {
 	slog.InfoContext(ctx, "Application exited")
 }
 
-// run manages app lifecycle, signal handling, and runner.
 func run(ctx context.Context) error {
+	return nil
 }
