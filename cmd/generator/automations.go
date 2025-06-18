@@ -30,8 +30,8 @@ type Automation struct {
 	ID          string    `yaml:"id,omitempty"`
 	Alias       string    `yaml:"alias,omitempty"`
 	Description string    `yaml:"description,omitempty"`
-	Triggers    []Trigger `yaml:"triggers,omitempty"`
-	Actions     []Action  `yaml:"actions,omitempty"`
+	Triggers    []Trigger `yaml:"trigger,omitempty"`
+	Actions     []Action  `yaml:"action,omitempty"`
 	Mode        string    `yaml:"mode,omitempty"`
 }
 
@@ -51,9 +51,10 @@ type Condition struct {
 }
 
 type Sequence struct {
-	Target Target `yaml:"target,omitempty"`
-	Action string `yaml:"action,omitempty"`
-	Data   any    `yaml:"data"`
+	Service string `yaml:"service,omitempty"`
+	Target  Target `yaml:"target,omitempty"`
+	Action  string `yaml:"action,omitempty"`
+	Data    any    `yaml:"data,omitempty"`
 }
 
 type Target struct {
@@ -61,6 +62,7 @@ type Target struct {
 }
 
 type Trigger struct {
-	EntityID string `yaml:"entity_id,omitempty"`
 	Trigger  string `yaml:"trigger,omitempty"`
+	Platform string `yaml:"platform,omitempty"`
+	EntityID string `yaml:"entity_id,omitempty"`
 }

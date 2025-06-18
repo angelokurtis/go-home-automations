@@ -27,45 +27,37 @@ func run(ctx context.Context) error {
 	for _, group := range groups {
 		for _, sw := range group.Switches {
 			_, others := lo.Difference([]string{sw}, group.Switches)
+			var chooses []Choose
+			for _, other := range others {
+				chooses = append(chooses, Choose{
+					Conditions: []Condition{
+						{Condition: "state", EntityID: sw, State: "on"},
+						{Condition: "state", EntityID: other, State: "off"},
+					},
+					Sequence: []Sequence{{
+						Target:  Target{EntityID: other},
+						Service: "switch.turn_on",
+					}},
+				})
+				chooses = append(chooses, Choose{
+					Conditions: []Condition{
+						{Condition: "state", EntityID: sw, State: "off"},
+						{Condition: "state", EntityID: other, State: "on"},
+					},
+					Sequence: []Sequence{{
+						Target:  Target{EntityID: other},
+						Service: "switch.turn_off",
+					}},
+				})
+			}
 			automations = append(automations, Automation{
 				Alias: fmt.Sprintf("Synchronize %q", sw),
 				Triggers: []Trigger{{
+					Platform: "state",
 					EntityID: sw,
-					Trigger:  "state",
 				}},
-				Actions: []Action{{
-					Choose: []Choose{
-						{
-							Conditions: []Condition{{
-								Condition: "state",
-								EntityID:  sw,
-								State:     "on",
-							}},
-							Sequence: lo.Map(others, func(item string, index int) Sequence {
-								return Sequence{
-									Target: Target{EntityID: item},
-									Action: "switch.turn_on",
-									Data:   struct{}{},
-								}
-							}),
-						},
-						{
-							Conditions: []Condition{{
-								Condition: "state",
-								EntityID:  sw,
-								State:     "off",
-							}},
-							Sequence: lo.Map(others, func(item string, index int) Sequence {
-								return Sequence{
-									Target: Target{EntityID: item},
-									Action: "switch.turn_off",
-									Data:   struct{}{},
-								}
-							}),
-						},
-					},
-				}},
-				Mode: "single",
+				Actions: []Action{{Choose: chooses}},
+				Mode:    "single",
 			})
 		}
 	}

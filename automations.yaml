@@ -1,697 +1,923 @@
 - alias: Synchronize "switch.interruptor_6x_da_copa_l1"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l2
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l2
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_3x_da_entrada_left
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l2
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l2
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l1
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_left
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_3x_da_entrada_left
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l1
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_left
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_3x_da_entrada_left
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa_l2"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa_l2
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa_l2
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l2
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l1
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_3x_da_entrada_left
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l2
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l1
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l2
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_left
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_3x_da_entrada_left
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l2
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_left
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_3x_da_entrada_left
   mode: single
 - alias: Synchronize "switch.interruptor_3x_da_entrada_left"
-  triggers:
-    - entity_id: switch.interruptor_3x_da_entrada_left
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_3x_da_entrada_left
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_3x_da_entrada_left
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l1
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_6x_da_copa_l2
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_3x_da_entrada_left
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l1
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_left
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l2
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l2
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_left
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l2
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_6x_da_copa_l2
   mode: single
 - alias: Synchronize "switch.interruptor_3x_da_entrada_center"
-  triggers:
-    - entity_id: switch.interruptor_3x_da_entrada_center
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_3x_da_entrada_center
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_3x_da_entrada_center
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l1
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_3x_da_entrada_center
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l1
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_entrada_l1"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_entrada_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_entrada_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_center
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_3x_da_entrada_center
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_center
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_3x_da_entrada_center
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_3x_da_entrada_right"
-  triggers:
-    - entity_id: switch.interruptor_3x_da_entrada_right
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_3x_da_entrada_right
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_3x_da_entrada_right
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l2
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l2
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_3x_da_entrada_right
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l2
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l2
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_entrada_l2"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_entrada_l2
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_entrada_l2
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l2
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_right
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_3x_da_entrada_right
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l2
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_3x_da_entrada_right
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_3x_da_entrada_right
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_2x_da_area_gourmet_center"
-  triggers:
-    - entity_id: switch.interruptor_2x_da_area_gourmet_center
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_2x_da_area_gourmet_center
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_2x_da_area_gourmet_center
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l5
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l5
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_6x_da_copa_l4
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_2x_da_area_gourmet_center
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l5
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l5
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_center
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l4
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l4
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_center
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l4
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_6x_da_copa_l4
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_area_gourmet_l5"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_area_gourmet_l5
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_area_gourmet_l5
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_area_gourmet_l5
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_center
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_2x_da_area_gourmet_center
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_6x_da_copa_l4
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_area_gourmet_l5
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_center
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_2x_da_area_gourmet_center
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l5
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l4
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l4
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l5
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l4
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_6x_da_copa_l4
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa_l4"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa_l4
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa_l4
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l4
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_center
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_2x_da_area_gourmet_center
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_6x_da_area_gourmet_l5
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l4
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_center
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_2x_da_area_gourmet_center
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l4
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l5
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l5
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l4
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l5
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_6x_da_area_gourmet_l5
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_area_gourmet_l1"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_area_gourmet_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_area_gourmet_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_area_gourmet_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l6
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l6
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_area_gourmet_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l6
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l6
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_area_gourmet_l6"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_area_gourmet_l6
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_area_gourmet_l6
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_area_gourmet_l6
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l1
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_area_gourmet_l6
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_area_gourmet_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_area_gourmet_l1
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_2x_da_area_gourmet_left"
-  triggers:
-    - entity_id: switch.interruptor_2x_da_area_gourmet_left
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_2x_da_area_gourmet_left
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_2x_da_area_gourmet_left
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l5
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l5
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_2x_da_area_gourmet_left
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l5
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l5
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa_l5"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa_l5
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa_l5
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l5
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_left
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_2x_da_area_gourmet_left
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l5
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_2x_da_area_gourmet_left
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_2x_da_area_gourmet_left
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_entrada_l3"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_entrada_l3
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_entrada_l3
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l3
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l4
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l4
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l3
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l4
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l4
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_entrada_l4"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_entrada_l4
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_entrada_l4
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l4
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l3
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l3
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_entrada_l4
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_entrada_l3
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_entrada_l3
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_1x_do_mezanino"
-  triggers:
-    - entity_id: switch.interruptor_1x_do_mezanino
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_1x_do_mezanino
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_1x_do_mezanino
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l6
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l6
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_1x_do_mezanino
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l6
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa_l6
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa_l6"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa_l6
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa_l6
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l6
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_1x_do_mezanino
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_1x_do_mezanino
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa_l6
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_1x_do_mezanino
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_1x_do_mezanino
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_da_cozinha_l1"
-  triggers:
-    - entity_id: switch.interruptor_da_cozinha_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_da_cozinha_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_cozinha2_l1
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_da_cozinha2_l1
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_da_cozinha2_l1"
-  triggers:
-    - entity_id: switch.interruptor_da_cozinha2_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_da_cozinha2_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha2_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_cozinha_l1
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha2_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_da_cozinha_l1
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_da_lavanderia_l1"
-  triggers:
-    - entity_id: switch.interruptor_da_lavanderia_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_da_lavanderia_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_lavanderia_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l2
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_cozinha_l2
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_da_cozinha2_l2
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_lavanderia_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l2
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_da_cozinha_l2
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_da_lavanderia_l1
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l2
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_cozinha2_l2
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_da_lavanderia_l1
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l2
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_da_cozinha2_l2
   mode: single
 - alias: Synchronize "switch.interruptor_da_cozinha_l2"
-  triggers:
-    - entity_id: switch.interruptor_da_cozinha_l2
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_da_cozinha_l2
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha_l2
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_lavanderia_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_lavanderia_l1
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_da_cozinha2_l2
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha_l2
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_lavanderia_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_da_lavanderia_l1
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l2
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l2
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_cozinha2_l2
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l2
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l2
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_da_cozinha2_l2
   mode: single
 - alias: Synchronize "switch.interruptor_da_cozinha2_l2"
-  triggers:
-    - entity_id: switch.interruptor_da_cozinha2_l2
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_da_cozinha2_l2
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha2_l2
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_lavanderia_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_lavanderia_l1
-              action: switch.turn_on
-              data: {}
-            - target:
-                entity_id: switch.interruptor_da_cozinha_l2
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_da_cozinha2_l2
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_lavanderia_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_da_lavanderia_l1
-              action: switch.turn_off
-              data: {}
-            - target:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l2
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l2
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_da_cozinha_l2
-              action: switch.turn_off
-              data: {}
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha2_l2
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_da_cozinha_l2
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_da_cozinha_l2
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa2_l1"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa2_l1
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa2_l1
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa2_l1
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa2_l2
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa2_l2
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa2_l1
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa2_l2
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa2_l2
-              action: switch.turn_off
-              data: {}
   mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa2_l2"
-  triggers:
-    - entity_id: switch.interruptor_6x_da_copa2_l2
-      trigger: state
-  actions:
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa2_l2
+  action:
     - choose:
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa2_l2
               state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa2_l1
+              state: "off"
           sequence:
-            - target:
+            - service: switch.turn_on
+              target:
                 entity_id: switch.interruptor_6x_da_copa2_l1
-              action: switch.turn_on
-              data: {}
         - conditions:
             - condition: state
               entity_id: switch.interruptor_6x_da_copa2_l2
               state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa2_l1
+              state: "on"
           sequence:
-            - target:
+            - service: switch.turn_off
+              target:
                 entity_id: switch.interruptor_6x_da_copa2_l1
-              action: switch.turn_off
-              data: {}
   mode: single
