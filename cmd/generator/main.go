@@ -26,9 +26,9 @@ func run(ctx context.Context) error {
 
 	for _, group := range groups {
 		for _, sw := range group.Switches {
-			others, _ := lo.Difference([]string{sw}, group.Switches)
+			_, others := lo.Difference([]string{sw}, group.Switches)
 			automations = append(automations, Automation{
-				Alias: "🔗 " + sw,
+				Alias: "Sync " + sw,
 				Triggers: []Trigger{{
 					EntityID: sw,
 					Trigger:  "state",
@@ -45,6 +45,7 @@ func run(ctx context.Context) error {
 								return Sequence{
 									Target: Target{EntityID: item},
 									Action: "switch.turn_on",
+									Data:   struct{}{},
 								}
 							}),
 						},
@@ -58,6 +59,7 @@ func run(ctx context.Context) error {
 								return Sequence{
 									Target: Target{EntityID: item},
 									Action: "switch.turn_off",
+									Data:   struct{}{},
 								}
 							}),
 						},
@@ -67,6 +69,13 @@ func run(ctx context.Context) error {
 			})
 		}
 	}
+
+	y, err := automations.Marshal()
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(string(y))
 
 	return nil
 }
