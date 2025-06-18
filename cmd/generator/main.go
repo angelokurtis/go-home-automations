@@ -28,7 +28,7 @@ func run(ctx context.Context) error {
 		for _, sw := range group.Switches {
 			_, others := lo.Difference([]string{sw}, group.Switches)
 			automations = append(automations, Automation{
-				Alias: "Sync " + sw,
+				Alias: fmt.Sprintf("Synchronize %q", sw),
 				Triggers: []Trigger{{
 					EntityID: sw,
 					Trigger:  "state",
