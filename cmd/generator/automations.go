@@ -53,6 +53,7 @@ type Condition struct {
 type Sequence struct {
 	Target Target `yaml:"target,omitempty"`
 	Action string `yaml:"action,omitempty"`
+	Data   any    `yaml:"data"`
 }
 
 type Target struct {

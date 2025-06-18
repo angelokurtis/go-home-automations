@@ -11,7 +11,7 @@ require (
 	github.com/google/wire v0.6.0
 	github.com/lmittmann/tint v1.0.7
 	github.com/magefile/mage v1.15.0
-	github.com/samber/lo v1.49.1
+	github.com/samber/lo v1.51.0
 	github.com/sourcegraph/conc v0.3.0
 	go.opentelemetry.io/otel/trace v1.35.0
 	go.uber.org/automaxprocs v1.6.0

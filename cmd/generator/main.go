@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+
+	"github.com/samber/lo"
 )
 
 func main() {
@@ -21,16 +23,37 @@ func main() {
 
 func run(ctx context.Context) error {
 	automations := make(Automations, 0)
+
 	for _, group := range groups {
 		for _, sw := range group.Switches {
+			others, _ := lo.Difference([]string{sw}, group.Switches)
 			automations = append(automations, Automation{
-				Alias:       "Sync " + sw,
-				Description: "",
-				Triggers:    nil,
-				Actions:     nil,
-				Mode:        "",
+				Alias: "Sync " + sw,
+				Triggers: []Trigger{{
+					EntityID: sw,
+					Trigger:  "state",
+				}},
+				Actions: []Action{{
+					Choose: []Choose{
+						{
+							Conditions: []Condition{{
+								Condition: "state",
+								EntityID:  sw,
+								State:     "on",
+							}},
+							Sequence: lo.Map(others, func(item string, index int) Sequence {
+								return Sequence{
+									Target: Target{EntityID: item},
+									Action: "switch.turn_on",
+								}
+							}),
+						},
+					},
+				}},
+				Mode: "single",
 			})
 		}
 	}
+
 	return nil
 }
