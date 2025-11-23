@@ -8,6 +8,10 @@ type Group struct {
 
 var groups Groups = Groups{
 	Group{Switches: []string{
+		"switch.interruptor_6x_da_copa_l3",
+		"switch.arvore_de_natal",
+	}},
+	Group{Switches: []string{
 		"switch.interruptor_6x_da_copa_l1",
 		"switch.interruptor_6x_da_copa_l2",
 		"switch.interruptor_3x_da_entrada_left",

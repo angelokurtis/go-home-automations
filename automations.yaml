@@ -1,3 +1,61 @@
+- alias: Synchronize "switch.interruptor_6x_da_copa_l3"
+  trigger:
+    - platform: state
+      entity_id: switch.interruptor_6x_da_copa_l3
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l3
+              state: "on"
+            - condition: state
+              entity_id: switch.arvore_de_natal
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
+                entity_id: switch.arvore_de_natal
+        - conditions:
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l3
+              state: "off"
+            - condition: state
+              entity_id: switch.arvore_de_natal
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.arvore_de_natal
+  mode: single
+- alias: Synchronize "switch.arvore_de_natal"
+  trigger:
+    - platform: state
+      entity_id: switch.arvore_de_natal
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: switch.arvore_de_natal
+              state: "on"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l3
+              state: "off"
+          sequence:
+            - service: switch.turn_on
+              target:
+                entity_id: switch.interruptor_6x_da_copa_l3
+        - conditions:
+            - condition: state
+              entity_id: switch.arvore_de_natal
+              state: "off"
+            - condition: state
+              entity_id: switch.interruptor_6x_da_copa_l3
+              state: "on"
+          sequence:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.interruptor_6x_da_copa_l3
+  mode: single
 - alias: Synchronize "switch.interruptor_6x_da_copa_l1"
   trigger:
     - platform: state
